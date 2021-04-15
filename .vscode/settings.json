@@ -1,0 +1,4 @@
+{
+    "DockerRun.DisableAutoGenerateConfig": true,
+    "python.pythonPath": "virtual\\Scripts\\python.exe"
+}
