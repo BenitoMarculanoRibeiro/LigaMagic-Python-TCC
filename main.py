@@ -1,4 +1,5 @@
 import random
+from copy import copy
 
 
 class Carta:
@@ -35,6 +36,15 @@ class Carta:
     def setQtd(self, vetQtd):
         self.vetQtd = vetQtd
 
+    def mais1(self, i):
+        self.vetQtd[i] += 1
+
+    def menos1(self, i):
+        self.vetQtd[i] = int(self.vetQtd[i]) - 1
+
+    def toString(self):
+        return str("Id Carta: " + str(self.getId()) + "\nNome: " + str(self.getNome()) + "\nVetor de Precos: \n" + str(self.getPrecos()) + " \nVetor de Quantidade: \n" + str(self.getQtd()) + " \n\n")
+
 
 class Item:
 
@@ -58,7 +68,7 @@ class Item:
         self.qtd -= 1
 
     def toString(self):
-        return "Id Carta: " + str(self.getCarta()) + " Quantidade: " + str(self.getQtd())
+        return str(str(self.getCarta().toString()) + " Quantidade: " + str(self.getQtd())+"\n")
 
 
 class Frete:
@@ -78,6 +88,9 @@ class Frete:
     def setFrete(self, frete):
         self.frete = frete
 
+    def toString(self):
+        return "Loja "+str(self.getLoja())+": "+str(self.getFrete())+"\n"
+
 
 class Fretes:
     def __init__(self):
@@ -91,8 +104,14 @@ class Fretes:
         for i in vetFrete[1]:
             frete = Frete()
             frete.setLoja(vetFrete[1].index(i))
-            frete.setFrete(vetFrete[1])
+            frete.setFrete(vetFrete[1][vetFrete[1].index(i)])
             self.fretes.append(frete)
+
+    def toString(self):
+        texto = ""
+        for frete in self.fretes:
+            texto += str(frete.toString())
+        return texto
 
 
 class Pedido:
@@ -131,28 +150,58 @@ class Pedido:
 
 class Gene:
     def __init__(self):
-        self.id
-        self.loja
+        self.carta = None
+        self.loja = None
 
-    def __init__(self, id, loja):
-        self.id = id
-        self.loja = loja
+    def getCarta(self):
+        return self.carta
 
-    def getId(self):
-        return self.id
+    def setCarta(self, carta):
+        self.carta = carta
 
     def getLoja(self):
         return self.loja
 
+    def setLoja(self, loja):
+        self.loja = loja
+
+    def toString(self):
+        return "Carta: " + str(self.carta.getNome()) + "\nId Loja: " + str(self.loja) + "\n"
+
 
 class Cromossomo:
     def __init__(self):
-        self.cromossomo = None
+        self.cromossomo = []
         self.fitness = None
 
-    def preencherCromossomo(self, vetCartas, pedido):
-        for item in pedido.getPedido():
-            print(item.getCarta())
+    def preencherCromossomo(self, pedido, frete):
+        vet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+               44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86]
+        copiaPedido = copy(pedido)
+        for item in copiaPedido.getPedido():
+            vetPos = copy(vet)
+            random.shuffle(vetPos)
+            # print(vetPos)
+            for j in range(int(item.getQtd())):
+                for i in vetPos:
+                    lojas = item.getCarta().getQtd()[i]
+                    try:
+                        if(int(lojas) > 0):
+                            #print("Posicao " + str(i) + " qtd: " + str(lojas))
+                            gene = Gene()
+                            gene.setCarta(item.getCarta())
+                            gene.setLoja(i)
+                            print("Qtd Antes: " +
+                                  str(item.getCarta().getQtd()[i]))
+                            item.getCarta().menos1(i)
+                            print("Qtd Depois: " +
+                                  str(item.getCarta().getQtd()[i])+"\n")
+                            #print(gene.toString())
+                            break
+                    except:
+                        print("Aviso " + str(lojas)+", tipo: " + str(type(lojas)is int))
+                        pass
+
         pass
 
     def calculaFitness(self):
@@ -207,14 +256,15 @@ pedido3 = lerArquivo("arquivos/ligamagicPedido3.txt")
 pedido4 = lerArquivo("arquivos/ligamagicPedido4.txt")
 vetPreco = lerArquivo("arquivos/ligamagicPreco.txt")
 vetQtd = lerArquivo("arquivos/ligamagicQtd.txt")
-'''
-vetCartas = cartas(pedido1, vetPreco, vetQtd)
-print(len(vetCartas))
-'''
-vetPedido = Pedido()
-vetPedido.geraPedido(pedido1, vetPreco, vetQtd)
-print(len(vetPedido.getPedido()))
+
+pedido = Pedido()
+pedido.geraPedido(pedido1, vetPreco, vetQtd)
+
 frete = Fretes()
 frete.geraVetorFrete(vetFretes)
-cromossomo = Cromossomo()
-cromossomo.preencherCromossomo(vetPedido)
+
+#cromossomo = Cromossomo()
+#cromossomo.preencherCromossomo(pedido, frete)
+
+for item in pedido.getPedido():
+    print(item.toString())
