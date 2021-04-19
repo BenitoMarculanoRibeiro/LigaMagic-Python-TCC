@@ -97,7 +97,7 @@ class Fretes:
         self.fretes = []
 
     def getFrete(self, id):
-        self
+        return self.fretes[id]
 
     def geraVetorFrete(self, vetFrete):
         vetFrete[1].pop(0)
@@ -181,13 +181,12 @@ class Cromossomo:
         for item in copiaPedido.getPedido():
             vetPos = copy(vet)
             random.shuffle(vetPos)
-            # print(vetPos)
             for j in range(int(item.getQtd())):
                 for i in vetPos:
                     lojas = item.getCarta().getQtd()[i]
                     try:
                         if(int(lojas) > 0):
-                            #print("Posicao " + str(i) + " qtd: " + str(lojas))
+                            print("Id Carta: "+str(item.getCarta().getId())+" Posicao " + str(i) + " qtd: " + str(lojas))
                             gene = Gene()
                             gene.setCarta(item.getCarta())
                             gene.setLoja(i)
@@ -196,15 +195,21 @@ class Cromossomo:
                             item.getCarta().menos1(i)
                             print("Qtd Depois: " +
                                   str(item.getCarta().getQtd()[i])+"\n")
-                            #print(gene.toString())
+                            self.cromossomo.append(gene)
+                            # print(gene.toString())
                             break
                     except:
-                        print("Aviso " + str(lojas)+", tipo: " + str(type(lojas)is int))
+                        print("Aviso " + str(lojas)+", tipo: " + str(type(lojas) is int))
                         pass
+            fitness = 0
+            vetLoja = []
+            for gen in self.cromossomo:
 
-        pass
-
-    def calculaFitness(self):
+                fitness += float(gen.getCarta().getPrecos()[gen.getLoja()])
+                if gen.getLoja() not in vetLoja:
+                    fitness += float(frete.getFrete(gen.getLoja()).getFrete())
+                    vetLoja.append(gen.getLoja())
+            self.fitness =fitness
         pass
 
 
@@ -214,6 +219,18 @@ def lerArquivo(caminho):
     for line in f:
         c = []
         linha = line.split("	")
+        for collun in linha:
+            c.append(collun)
+        vet.append(c)
+    return vet
+
+
+def lerArquivo2(caminho):
+    vet = []
+    f = open(caminho, 'r')
+    for line in f:
+        c = []
+        linha = line.split("|")
         for collun in linha:
             c.append(collun)
         vet.append(c)
@@ -254,8 +271,8 @@ pedido1 = lerArquivo("arquivos/ligamagicPedido1.txt")
 pedido2 = lerArquivo("arquivos/ligamagicPedido2.txt")
 pedido3 = lerArquivo("arquivos/ligamagicPedido3.txt")
 pedido4 = lerArquivo("arquivos/ligamagicPedido4.txt")
-vetPreco = lerArquivo("arquivos/ligamagicPreco.txt")
-vetQtd = lerArquivo("arquivos/ligamagicQtd.txt")
+vetPreco = lerArquivo2("arq/ligamagicPreco.txt")
+vetQtd = lerArquivo2("arq/ligamagicQtd.txt")
 
 pedido = Pedido()
 pedido.geraPedido(pedido1, vetPreco, vetQtd)
@@ -263,8 +280,10 @@ pedido.geraPedido(pedido1, vetPreco, vetQtd)
 frete = Fretes()
 frete.geraVetorFrete(vetFretes)
 
-#cromossomo = Cromossomo()
-#cromossomo.preencherCromossomo(pedido, frete)
-
+cromossomo = Cromossomo()
+cromossomo.preencherCromossomo(pedido, frete)
+print(cromossomo.fitness)
+'''
 for item in pedido.getPedido():
-    print(item.toString())
+    print(str(item.getCarta().getNome())+ " - "+item.getQtd())
+'''
