@@ -1,22 +1,42 @@
-class Card:
-    ativo = False
+class Carta:
+    def __init__(self):
+        self.id = None
+        self.nome = None
+        self.vetPreco = None
+        self.vetQtd = None
 
-    def __init__(self, nome, vetPreco, vetQtd) -> None:
+    def getCarta(vetCarta, id):
+        return vetCarta[id]
+
+    def getId(self):
+        return self.id
+
+    def getNome(self):
+        return self.nome
+
+    def getPrecos(self):
+        return self.vetPreco
+
+    def getQtd(self):
+        return self.vetQtd
+
+    def setId(self, id):
+        self.id = id
+
+    def setNome(self, nome):
         self.nome = nome
+
+    def setPrecos(self, vetPreco):
         self.vetPreco = vetPreco
+
+    def setQtd(self, vetQtd):
         self.vetQtd = vetQtd
 
-    def clone(self):
-        cardClone = Card(self.nome, self.vetPreco, self.vetQtd)
-        return cardClone
+    def mais1(self, i):
+        self.vetQtd[i] += 1
 
+    def menos1(self, i):
+        self.vetQtd[i] = int(self.vetQtd[i]) - 1
 
-carta1 = Card("CounterSpell", [2.2, 12, 3, 2.3, 9], [1, 2, 4, 12, 2])
-print(carta1.nome)
-print(carta1.vetPreco)
-print(carta1.vetQtd)
-
-carta11 = carta1
-print(carta11.nome)
-print(carta11.vetPreco)
-print(carta11.vetQtd)
+    def toString(self):
+        return str("Id Carta: " + str(self.getId()) + "\nNome: " + str(self.getNome()) + "\nVetor de Precos: \n" + str(self.getPrecos()) + " \nVetor de Quantidade: \n" + str(self.getQtd()) + " \n\n")

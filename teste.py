@@ -1,14 +1,8 @@
-# shallow copy using the slicing syntax
+import card
 
-# mixed list
-list = ['cat', 0, 6.7]
-
-# copying a list using slicing
-new_list = list[:]
-
-# Adding an element to the new list
-new_list[1] = "Doug"
-
-# Printing new and old list
-print('Old List:', list)
-print('New List:', new_list)
+carta = card.Carta()
+carta.setId(1)
+carta.setNome("")
+carta.setPrecos([12.3,5.3,342,1])
+carta.setQtd([1,2,6])
+print(carta.toString())
