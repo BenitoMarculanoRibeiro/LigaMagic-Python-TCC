@@ -231,8 +231,7 @@ class Populacao:
             self.populacao.append(cromossomo)
             if(self.top1 == None or self.top1.getFitness() > cromossomo.getFitness()):
                 self.top1 = cromossomo
-            print("Top1: " + str(self.top1.getFitness()) +
-                  "\nCromossomo: " + str(cromossomo.getFitness()))
+            #print("Top1: " + str(self.top1.getFitness()) + "\nCromossomo: " + str(cromossomo.getFitness()))
 
     def getTop1(self):
         return self.top1
@@ -320,7 +319,7 @@ pedido.geraPedido(pedido1, vetPreco, vetQtd)
 frete = Fretes()
 frete.geraVetorFrete(vetFretes)
 
-populacao = Populacao(pedido, frete, 10000)
+populacao = Populacao(pedido, frete, 100)
 print(populacao.toStringValor())
 print(populacao.getTop1().getFitness())
 

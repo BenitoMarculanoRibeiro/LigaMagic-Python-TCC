@@ -1,3 +1,6 @@
+from carta import Carta
+
+
 class Item:
 
     def __init__(self):
@@ -21,3 +24,6 @@ class Item:
 
     def toString(self):
         return str(str(self.getCarta().toString()) + " Quantidade: " + str(self.getQtd())+"\n")
+
+
+
