@@ -1,11 +1,5 @@
-import random
-
-vetor = [["Banana", 5], ["Abroba", 1], ["Cleiton", 3],
-         ["Marcos", 2], ["Marquin", 4], ["Leite", 0]]
-
-
 def mergeSort(alist):
-    #print("Splitting ", alist)
+    print("Splitting ", alist)
     if len(alist) > 1:
         mid = len(alist)//2
         lefthalf = alist[:mid]
@@ -31,24 +25,12 @@ def mergeSort(alist):
             alist[k] = righthalf[j]
             j = j+1
             k = k+1
-    #print("Merging ", alist)
+    print("Merging ", alist)
 
 
-def roleta(lista):
-    vetor = []
-    cont = len(lista)
-    for i in lista:
-        for j in range(cont):
-            vetor.append(i)
-        cont -= 1
-    print(vetor)
-    random.shuffle(vetor)
-    print(vetor)
-    result = lista.pop(0)
-    return result
-
-
-print(vetor)
+alist = [54, 26, 93, 17, 77, 31, 44, 55, 20]
+vetor = [["Banana", 5], ["Abroba", 1], ["Cleiton", 3],
+         ["Marcos", 2], ["Marquin", 4], ["Leite", 0]]
+print(vetor[0][1])
 mergeSort(vetor)
 print(vetor)
-print(roleta(vetor))

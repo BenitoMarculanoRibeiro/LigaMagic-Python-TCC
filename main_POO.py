@@ -1,3 +1,4 @@
+from cromossomo import Cromossomo
 from frete import Frete
 import control
 from item import Item
@@ -14,11 +15,15 @@ arqQtd = control.lerArquivo2("arquivos/ligamagicQtd.txt")
 fretes = control.geraVetorFrete(arqFretes)
 
 pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
+top1 = Cromossomo()
+for i in range(10):
+    populacao = Populacao(pedido, fretes, 10, top1)
+    #print(populacao.toStringValor())
+    top1 = populacao.getTop1()
+    print("Top1 "+str(populacao.getTop1().getFitness()))
+'''    print(populacao.getPais()[0].getFitness())
+    print(populacao.getPais()[1].getFitness())
 
-populacao = Populacao(pedido, fretes, 100)
-print(populacao.toStringValor())
-print(populacao.getTop1().getFitness())
-'''
 
 
 pedido = Pedido()

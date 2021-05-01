@@ -1,6 +1,8 @@
+#Nota: a classe Gene seria o gene
 class Gene:
     def __init__(self):
         self.carta = None
+        #Nota: a loja seria o alelo
         self.loja = None
 
     def getCarta(self):

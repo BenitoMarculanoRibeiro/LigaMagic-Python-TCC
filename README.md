@@ -58,3 +58,15 @@ Se não tiver a quantidade nescessaria somando todas as lojas o pedido é cancel
 
 Para fins de facilitar a confecção do algoritmo o frete será unico para cada loja, independente da quantidade de itens comprado na mesma.
 
+# Seleção
+
+
+
+Na seleção selecionaremos dois individuos/cromossomos atravez de uma roleta aonde quanto melhores a avaliação mais "chances" ele terá de ser escolhido.
+
+Exemplo em uma população de tamanho 10 o individuo com a melhor avaliação tera 10 chances, o sengundo melhor terá 9 chances, ..., e o ultimo terá apenas 1 chance de ser escolhido.
+
+Isso garante que exista uma boa variabilidade genética. 
+
+Mas se por acaso apareça algum individuo com uma avaliação melhor do que todas as outras descobertas esse individuo terá seu cromossomo armazenado a parte como uma possivel resposta.
+
