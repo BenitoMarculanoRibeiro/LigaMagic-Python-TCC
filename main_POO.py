@@ -17,7 +17,7 @@ fretes = control.geraVetorFrete(arqFretes)
 pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
 top1 = Cromossomo()
 for i in range(10):
-    populacao = Populacao(pedido, fretes, 10, top1)
+    populacao = Populacao(pedido, fretes, 100, top1)
     #print(populacao.toStringValor())
     top1 = populacao.getTop1()
     print("Top1 "+str(populacao.getTop1().getFitness()))

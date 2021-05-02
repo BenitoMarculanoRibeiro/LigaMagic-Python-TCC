@@ -70,3 +70,10 @@ Isso garante que exista uma boa variabilidade genética.
 
 Mas se por acaso apareça algum individuo com uma avaliação melhor do que todas as outras descobertas esse individuo terá seu cromossomo armazenado a parte como uma possivel resposta.
 
+# Cruzamento
+
+O cruzamento mais comum é o por ponto aletatorio. Aonde é escolhido uma posição aleatoria nos cromossomos dos pais de forma que os genes a esquerda (ou direita) da posição indicada é adicionado a um cromossomo filho junto da parte oposta do segundo cromossomo.
+
+Mas existe um problema ao fazer o cruzamento por ponto aletatorio nesse problema. O problema é que existe uma quantidade maxima de cartas por loja e o pedido pode pedir mais cartas do que uma loja tem, de forma que ao pedir 30 cartas x a loja y pode ter apenas 10 cartas x, sendo assim existe uma chance de que o cruzamento falhe. Ou seja, tem que ser validado a quantidade de cartas por loja para que o cromossomo não tenha mais cartas no pedido do que a loja realmente tenha. 
+
+Uma solução para isso seria fazer o cruzamento por carta, de forma que ao fazer o cruzamento seja criada uma lista com os nomes (ids) das cartas e seja escolhido uma posição aleatoria dessa lista, e seja adicionada a cromossomo filho as cartas escolhida a esquerda (ou o contrario) da lista de cartas do primeiro cromossomo e as cartas a direita da lista de cartas do segundo cromossomo.
