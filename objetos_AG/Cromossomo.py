@@ -1,4 +1,4 @@
-from gene import Gene
+from .gene import Gene
 import random
 import copy
 
@@ -52,4 +52,4 @@ class Cromossomo:
                 #print("Preco Frete: " + str(float(frete.getFrete(gen.getLoja()).getFrete()))+ " Loja: " + str(gen.getLoja()))
                 fitness += float(frete[gen.getLoja()].getFrete())
                 vetLoja.append(gen.getLoja())
-        self.fitness = fitness
+        self.fitness = round(fitness,2)

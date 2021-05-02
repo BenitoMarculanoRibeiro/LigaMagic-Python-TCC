@@ -1,6 +1,6 @@
-from item import Item
-from carta import Carta
-from frete import Frete
+from .item import Item
+from .carta import Carta
+from .frete import Frete
 
 def lerArquivo(caminho):
     vet = []

@@ -1,4 +1,4 @@
-from cromossomo import Cromossomo
+from .Cromossomo import Cromossomo
 import random
 import copy
 
