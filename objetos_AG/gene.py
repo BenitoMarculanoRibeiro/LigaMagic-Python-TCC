@@ -1,8 +1,8 @@
-#Nota: a classe Gene seria o gene
+# Nota: a classe Gene seria o gene
 class Gene:
     def __init__(self):
         self.carta = None
-        #Nota: a loja seria o alelo
+        # Nota: a loja seria o alelo
         self.loja = None
 
     def getCarta(self):
@@ -18,4 +18,4 @@ class Gene:
         self.loja = loja
 
     def toString(self):
-        return "Carta: " + str(self.carta.getNome()) + "\nId Loja: " + str(self.loja) + "\n"
+        return "Id Loja: " + str(self.loja) + " | Carta: " + str(self.carta.getNome()) + "\n"

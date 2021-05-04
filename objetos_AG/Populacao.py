@@ -7,12 +7,13 @@ class Populacao:
     def __init__(self, pedido, frete, tam, top1):
         self.populacao = []
         self.pais = []
+        self.filho = Cromossomo()
         for i in range(tam):
             cromossomo = Cromossomo()
             cromossomo.preencherCromossomo(pedido, frete)
             self.populacao.append(cromossomo)
         mergeSort(self.populacao)
-        if(top1.getFitness() == None or self.populacao[0].getFitness() < top1.getFitness()):
+        if(self.populacao[0].getFitness() < top1.getFitness()):
             self.top1 = self.populacao[0]
         else:
             self.top1 = top1
@@ -30,6 +31,9 @@ class Populacao:
     def getPais(self):
         return self.pais
 
+    def getFilho(self):
+        return self.filho
+
     def setTop1(self, top1):
         self.top1 = top1
 
@@ -41,6 +45,34 @@ class Populacao:
         for item in self.populacao:
             texto += "Fitness: R$" + str(item.getFitness()) + ".\n"
         return texto
+
+    def cruzamentoMonoPonto(self, pedido, frete):
+        ponto = pedido[random.randint(1, len(pedido)-2)].getCarta().getId()
+        pos = 0
+        status = 0
+        for pos in range(len(self.pais[0].getCromossomo())):
+            if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) == int(ponto)):
+                status = 1
+            self.filho.getCromossomo().append(
+                self.pais[status].getCromossomo()[pos])
+            pos += 1
+        self.filho.avaliacao(frete)
+        if(self.top1.getFitness() > self.filho.getFitness()):
+            self.top1 = self.filho
+
+    def cruzamentoMultiPontos(self, pedido, frete):
+        ponto = pedido[random.randint(1, len(pedido)-2)].getCarta().getId()
+        pos = 0
+        status = 0
+        for pos in range(len(self.pais[0].getCromossomo())):
+            if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
+                status = random.randint(0, 1)
+            self.filho.getCromossomo().append(
+                self.pais[status].getCromossomo()[pos])
+            pos += 1
+        self.filho.avaliacao(frete)
+        if(self.top1.getFitness() > self.filho.getFitness()):
+            self.top1 = self.filho
 
 
 def mergeSort(alist):

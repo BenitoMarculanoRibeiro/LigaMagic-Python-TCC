@@ -33,7 +33,7 @@ class Carta:
         self.vetQtd = vetQtd
 
     def mais1(self, i):
-        self.vetQtd[i] += 1
+        self.vetQtd[i] = int(self.vetQtd[i]) + 1
 
     def menos1(self, i):
         self.vetQtd[i] = int(self.vetQtd[i]) - 1

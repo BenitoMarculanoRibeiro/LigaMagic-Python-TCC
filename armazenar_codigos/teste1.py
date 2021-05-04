@@ -1,3 +1,6 @@
-Adsa = 3.12342235
-valor = round(Adsa,3)
-print (valor)
+import random
+
+print(random.randint(0, 1))
+print(random.randint(0, 1))
+print(random.randint(0, 1))
+print(random.randint(0, 1))
