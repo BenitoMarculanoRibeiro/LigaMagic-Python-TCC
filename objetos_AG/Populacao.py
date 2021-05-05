@@ -7,10 +7,11 @@ class Populacao:
     def __init__(self, pedido, frete, tam, top1):
         self.populacao = []
         self.pais = []
-        self.filho = Cromossomo()
+        self.filhos = []
         for i in range(tam):
             cromossomo = Cromossomo()
             cromossomo.preencherCromossomo(pedido, frete)
+            cromossomo.avaliacao(frete)
             self.populacao.append(cromossomo)
         mergeSort(self.populacao)
         if(self.populacao[0].getFitness() < top1.getFitness()):
@@ -31,8 +32,8 @@ class Populacao:
     def getPais(self):
         return self.pais
 
-    def getFilho(self):
-        return self.filho
+    def getFilhos(self):
+        return self.filhos
 
     def setTop1(self, top1):
         self.top1 = top1
@@ -53,26 +54,61 @@ class Populacao:
         for pos in range(len(self.pais[0].getCromossomo())):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) == int(ponto)):
                 status = 1
-            self.filho.getCromossomo().append(
-                self.pais[status].getCromossomo()[pos])
+            if(status == 0):
+                self.filhos[0].getCromossomo().append(
+                    self.pais[0].getCromossomo()[pos])
+                self.filhos[1].getCromossomo().append(
+                    self.pais[1].getCromossomo()[pos])
+            else:
+                self.filhos[0].getCromossomo().append(
+                    self.pais[1].getCromossomo()[pos])
+                self.filhos[1].getCromossomo().append(
+                    self.pais[0].getCromossomo()[pos])
             pos += 1
         self.filho.avaliacao(frete)
         if(self.top1.getFitness() > self.filho.getFitness()):
             self.top1 = self.filho
 
-    def cruzamentoMultiPontos(self, pedido, frete):
-        ponto = pedido[random.randint(1, len(pedido)-2)].getCarta().getId()
+    def cruzamentoMultiPontos(self, frete):
         pos = 0
         status = 0
-        for pos in range(len(self.pais[0].getCromossomo())):
+        pai = Cromossomo()
+        mae = Cromossomo()
+        for pos in range(len(self.pais[0].getCromossomo())-1):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
                 status = random.randint(0, 1)
-            self.filho.getCromossomo().append(
-                self.pais[status].getCromossomo()[pos])
+            if(status == 0):
+                pai.getCromossomo().append(self.pais[0].getCromossomo()[pos])
+                mae.getCromossomo().append(self.pais[1].getCromossomo()[pos])
+            else:
+                pai.getCromossomo().append(self.pais[1].getCromossomo()[pos])
+                mae.getCromossomo().append(self.pais[0].getCromossomo()[pos])
             pos += 1
-        self.filho.avaliacao(frete)
-        if(self.top1.getFitness() > self.filho.getFitness()):
-            self.top1 = self.filho
+        self.filhos.append(pai)
+        self.filhos.append(mae)
+        self.filhos[0].avaliacao(frete)
+        self.filhos[1].avaliacao(frete)
+        for i in self.filhos:
+            if(self.top1.getFitness() > i.getFitness()):
+                self.top1 = i
+                print("Filho "+ str(i.getFitness())+" é melhor que o Top1")
+
+
+    def insercao(self, pedido, frete, tam, top1):
+        self.populacao = []
+        for i in range(tam):
+            cromossomo = Cromossomo()
+            cromossomo.preencherCromossomo(pedido, frete)
+            self.cruzamentoMultiPontos(cromossomo, pedido, frete)
+            self.populacao.append(cromossomo)
+        mergeSort(self.populacao)
+        if(self.populacao[0].getFitness() < top1.getFitness()):
+            self.top1 = self.populacao[0]
+        else:
+            self.top1 = top1
+        copiaPopulacao = copy.deepcopy(self.populacao)
+        self.pais.append(roleta(copiaPopulacao))
+        self.pais.append(roleta(copiaPopulacao))
 
 
 def mergeSort(alist):
