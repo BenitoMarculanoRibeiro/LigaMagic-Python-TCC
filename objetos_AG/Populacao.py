@@ -1,5 +1,5 @@
 from .Cromossomo import Cromossomo
-import random
+from random import randint, shuffle
 import copy
 
 
@@ -38,6 +38,12 @@ class Populacao:
     def setTop1(self, top1):
         self.top1 = top1
 
+    def setPais(self, pai, pos):
+        self.pais[pos] = pai
+
+    def setFilhos(self, filho, pos):
+        self.filhos[pos] = filho
+
     def setPopulacao(self, populacao):
         self.populacao = populacao
 
@@ -48,9 +54,9 @@ class Populacao:
         return texto
 
     def cruzamentoMonoPonto(self, pedido, frete):
-        ponto = pedido[random.randint(1, len(pedido)-2)].getCarta().getId()
+        ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
         pos = 0
-        status = 0
+        status = randint(0, 1)
         for pos in range(len(self.pais[0].getCromossomo())):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) == int(ponto)):
                 status = 1
@@ -71,12 +77,12 @@ class Populacao:
 
     def cruzamentoMultiPontos(self, frete):
         pos = 0
-        status = 0
+        status = randint(0, 1)
         pai = Cromossomo()
         mae = Cromossomo()
         for pos in range(len(self.pais[0].getCromossomo())-1):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
-                status = random.randint(0, 1)
+                status = randint(0, 1)
             if(status == 0):
                 pai.getCromossomo().append(self.pais[0].getCromossomo()[pos])
                 mae.getCromossomo().append(self.pais[1].getCromossomo()[pos])
@@ -91,24 +97,49 @@ class Populacao:
         for i in self.filhos:
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
-                print("Filho "+ str(i.getFitness())+" é melhor que o Top1")
+                #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
 
+    def cruzamentoMultiPontosInsercao(self, pai, mae, frete):
+        pos = 0
+        status = randint(0, 1)
+        filho = Cromossomo()
+        for pos in range(len(self.pais[0].getCromossomo())-1):
+            if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
+                status = randint(0, 1)
+            if(status == 0):
+                filho.getCromossomo().append(pai.getCromossomo()[pos])
+            else:
+                filho.getCromossomo().append(mae.getCromossomo()[pos])
+            pos += 1
+        filho.avaliacao(frete)
+        for i in self.filhos:
+            if(self.top1.getFitness() > i.getFitness()):
+                self.top1 = i
+                #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
+        self.populacao.append(filho)
 
     def insercao(self, pedido, frete, tam, top1):
         self.populacao = []
         for i in range(tam):
-            cromossomo = Cromossomo()
-            cromossomo.preencherCromossomo(pedido, frete)
-            self.cruzamentoMultiPontos(cromossomo, pedido, frete)
-            self.populacao.append(cromossomo)
+            status = randint(0, 1)
+            if(status == 0):
+                cromossomo = Cromossomo()
+                cromossomo.preencherCromossomo(pedido, frete)
+                self.cruzamentoMultiPontosInsercao(
+                    cromossomo, self.pais[0], frete)
+            else:
+                cromossomo = Cromossomo()
+                cromossomo.preencherCromossomo(pedido, frete)
+                self.cruzamentoMultiPontosInsercao(
+                    cromossomo, self.pais[1], frete)
         mergeSort(self.populacao)
         if(self.populacao[0].getFitness() < top1.getFitness()):
             self.top1 = self.populacao[0]
         else:
             self.top1 = top1
         copiaPopulacao = copy.deepcopy(self.populacao)
-        self.pais.append(roleta(copiaPopulacao))
-        self.pais.append(roleta(copiaPopulacao))
+        self.setPais(roleta(copiaPopulacao),0)
+        self.setPais(roleta(copiaPopulacao),1)
 
 
 def mergeSort(alist):
@@ -146,6 +177,6 @@ def roleta(lista):
         for j in range(cont):
             vetor.append(i)
         cont -= 1
-    random.shuffle(vetor)
+    shuffle(vetor)
     result = vetor.pop(0)
     return result

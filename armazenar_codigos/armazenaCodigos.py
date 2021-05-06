@@ -63,3 +63,29 @@ for carta in vetPedido:
 for carta in vetCartas:
     print(str(carta.getId()) + " - " + str(carta.getNome()) + " - " +
           str(carta.getPrecos()) + " - " + str(carta.getQtd()))
+
+
+    def cruzamentoMultiPontosInsercao(self, pai, aleatorio, frete):
+        pos = 0
+        status = 0
+        filho1 = Cromossomo()
+        filho2 = Cromossomo()
+        for pos in range(len(self.pais[0].getCromossomo())-1):
+            if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
+                status = random.randint(0, 1)
+            if(status == 0):
+                filho1.getCromossomo().append(pai.getCromossomo()[pos])
+                filho2.getCromossomo().append(aleatorio.getCromossomo()[pos])
+            else:
+                filho1.getCromossomo().append(aleatorio.getCromossomo()[pos])
+                filho2.getCromossomo().append(pai.getCromossomo()[pos])
+            pos += 1
+        filhos = []
+        filhos.append(filho1)
+        filhos.append(filho2)
+        filhos[0].avaliacao(frete)
+        filhos[1].avaliacao(frete)
+        for i in self.filhos:
+            if(self.top1.getFitness() > i.getFitness()):
+                self.top1 = i
+                print("Filho "+ str(i.getFitness())+" é melhor que o Top1")

@@ -62,6 +62,18 @@ class Cromossomo:
                 vetLoja.append(gen.getLoja())
         self.fitness = round(fitness, 2)
 
+    def retornaAvaliacao(self, frete):
+        fitness = 0
+        vetLoja = []
+        for gen in self.cromossomo:
+            #print("Carta" +str(gen.getCarta().getNome())+"Preco Carta: " + str(float(gen.getCarta().getPrecos()[gen.getLoja()])))
+            fitness += float(gen.getCarta().getPrecos()[gen.getLoja()])
+            if gen.getLoja() not in vetLoja:
+                #print("Preco Frete: " + str(float(frete.getFrete(gen.getLoja()).getFrete()))+ " Loja: " + str(gen.getLoja()))
+                fitness += float(frete[gen.getLoja()].getFrete())
+                vetLoja.append(gen.getLoja())
+        return round(fitness, 2)
+
     def mutacao(self, frete, chance):
         if(random.randint(0, 100) < chance):
             gene = self.cromossomo[random.randint(0, len(self.cromossomo)-1)]
