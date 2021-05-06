@@ -23,9 +23,9 @@ top1 = Cromossomo.Cromossomo()
 # Iniciando o Top1 com o valor do maior int possivel para que ao ser analisado posteriormente seja excluido
 top1.setFitness(sys.maxsize)
 # tam é o tamnho da população
-tam = 200
+tam = 100
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
-falhas = 200
+falhas = 100
 # Iniciando a população
 populacao = Populacao.Populacao(pedido, frete, tam, top1)
 while True:

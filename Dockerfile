@@ -9,9 +9,9 @@ WORKDIR /ligamagic-tcc
 # COPY copia pastas e arquivos para dentro de sua area de trabalho
 COPY main.py .
 
-COPY concertar.py .
+# COPY concertar.py .
 
-COPY teste.py .
+# COPY teste.py .
 
 COPY ./arquivos ./arquivos
 
@@ -30,7 +30,7 @@ CMD ["python", "./main.py"]
 # docker build -t ligamagic-tcc .
 
 # Rode o container
-# docker run ligamagic-tcc
+# docker run -t -i ligamagic-tcc
 
 # Limpando os container não usados:
 # docker container prune
