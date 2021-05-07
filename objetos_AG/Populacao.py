@@ -95,6 +95,8 @@ class Populacao:
         self.filhos[0].avaliacao(frete)
         self.filhos[1].avaliacao(frete)
         for i in self.filhos:
+            #print("Top1 "+str(self.top1.getFitness()))
+            #print("I "+str(i.getFitness()))
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
                 #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
