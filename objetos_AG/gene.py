@@ -18,4 +18,4 @@ class Gene:
         self.loja = loja
 
     def toString(self):
-        return "Id Loja: " + str(self.loja) + " | Carta: " + str(self.carta.getNome()) + "\n"
+        return "Id Loja: " + str(self.loja)+ " | Id: " + str(self.carta.getId()) + " | Carta: " + str(self.carta.getNome()) + "\n"

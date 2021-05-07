@@ -5,16 +5,20 @@ import sys
 
 # Recebendo dados dos arquivos
 arqFretes = control.lerArquivo("arquivos/ligamagicFrete.txt")
-arqPedido = control.lerArquivo("arquivos/pedidoteste.txt")
+arqFretesTeste = control.lerArquivo("arquivos/ligamagicFreteTeste.txt")
+arqPedidoTeste = control.lerArquivo2("arquivos/pedidoteste.txt")
 arqPedido1 = control.lerArquivo("arquivos/ligamagicPedido1.txt")
 arqPedido2 = control.lerArquivo("arquivos/ligamagicPedido2.txt")
 arqPedido3 = control.lerArquivo("arquivos/ligamagicPedido3.txt")
 arqPedido4 = control.lerArquivo("arquivos/ligamagicPedido4.txt")
 arqPreco = control.lerArquivo2("arquivos/ligamagicPreco.txt")
 arqQtd = control.lerArquivo2("arquivos/ligamagicQtd.txt")
+arqPrecoTeste = control.lerArquivo2("arquivos/ligamagicPrecoTeste.txt")
+arqQtdTeste = control.lerArquivo2("arquivos/ligamagicQtdTeste.txt")
 frete = control.geraVetorFrete(arqFretes)
-pedido = control.geraPedido(arqPedido4, arqPreco, arqQtd)
-
+#frete = control.geraVetorFrete(arqFretesTeste)
+pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
+#pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
 # geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
 # cont conta as falhas
@@ -46,7 +50,8 @@ while True:
         analise.mutacao(frete, 50)
         if(analise.getFitness() < top1.getFitness()):
             top1 = analise
-            print("Filho:\n"+str(analise.toString()) + "\nCont: "+str(cont))
+            print("Filho:\n"+str(analise.toString()) + "Cont: "+str(cont))
+            print("asldba "+str(len(top1.getCromossomo()))+"\n")
             cont = 0
     cont += 1
     geracoes += 1
@@ -58,3 +63,4 @@ print("Top1 População Final:\n"+str(populacao.getTop1().toString()) + "\n")
 print("Gerações: " + str(geracoes))
 print("Tamanho: " + str(tam))
 print("Falhas: " + str(falhas))
+print("asldba"+str(len(top1.getCromossomo())))

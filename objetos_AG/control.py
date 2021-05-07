@@ -21,6 +21,7 @@ def lerArquivo2(caminho):
         c = []
         linha = line.split("|")
         for collun in linha:
+            collun = collun.rstrip("\n")
             c.append(collun)
         vet.append(c)
     return vet

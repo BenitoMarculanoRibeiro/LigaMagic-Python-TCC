@@ -10,7 +10,7 @@ class Populacao:
         self.filhos = []
         for i in range(tam):
             cromossomo = Cromossomo()
-            cromossomo.preencherCromossomo(pedido, frete)
+            cromossomo.preencherCromossomo(pedido)
             cromossomo.avaliacao(frete)
             self.populacao.append(cromossomo)
         mergeSort(self.populacao)
@@ -80,7 +80,8 @@ class Populacao:
         status = randint(0, 1)
         pai = Cromossomo()
         mae = Cromossomo()
-        for pos in range(len(self.pais[0].getCromossomo())-1):
+        #for pos in range(len(self.pais[0].getCromossomo())-1):
+        for pos in range(len(self.pais[0].getCromossomo())):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
                 status = randint(0, 1)
             if(status == 0):
@@ -105,7 +106,8 @@ class Populacao:
         pos = 0
         status = randint(0, 1)
         filho = Cromossomo()
-        for pos in range(len(self.pais[0].getCromossomo())-1):
+        #for pos in range(len(self.pais[0].getCromossomo())-1):
+        for pos in range(len(self.pais[0].getCromossomo())):
             if(int(self.pais[0].getCromossomo()[pos].getCarta().getId()) != int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) or int(self.pais[0].getCromossomo()[pos-1].getCarta().getId()) == None):
                 status = randint(0, 1)
             if(status == 0):
@@ -126,12 +128,12 @@ class Populacao:
             status = randint(0, 1)
             if(status == 0):
                 cromossomo = Cromossomo()
-                cromossomo.preencherCromossomo(pedido, frete)
+                cromossomo.preencherCromossomo(pedido)
                 self.cruzamentoMultiPontosInsercao(
                     cromossomo, self.pais[0], frete)
             else:
                 cromossomo = Cromossomo()
-                cromossomo.preencherCromossomo(pedido, frete)
+                cromossomo.preencherCromossomo(pedido)
                 self.cruzamentoMultiPontosInsercao(
                     cromossomo, self.pais[1], frete)
         mergeSort(self.populacao)

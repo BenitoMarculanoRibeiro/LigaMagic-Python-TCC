@@ -20,7 +20,7 @@ class Cromossomo:
     def setFitness(self, fitness):
         self.fitness = fitness
 
-    def preencherCromossomo(self, pedido, frete):
+    def preencherCromossomo(self, pedido):
         copiaPedido = copy.deepcopy(pedido)
         for item in copiaPedido:
             vet = []
@@ -76,7 +76,8 @@ class Cromossomo:
         return round(fitness, 2)
 
     def mutacao(self, frete, chance):
-        if(random.randint(0, 100) < chance):
+        if(random.randint(0, 100) < chance and len(self.cromossomo)>0):
+            #print(len(self.cromossomo))
             gene = self.cromossomo[random.randint(0, len(self.cromossomo)-1)]
             gene.getCarta().mais1(gene.getLoja())
             posLoja = random.randint(0, len(gene.getCarta().getQtd())-1)

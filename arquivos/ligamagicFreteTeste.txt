@@ -1,0 +1,2 @@
+ 	Site1	Site2	Site3	Site4	Site5	Site6
+Frete	13.96	14.10	22.80	7.9	7.92	17.24
