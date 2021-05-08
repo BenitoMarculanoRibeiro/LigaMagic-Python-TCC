@@ -70,6 +70,8 @@ Isso garante que exista uma boa variabilidade genética.
 
 Mas se por acaso apareça algum individuo com uma avaliação melhor do que todas as outras descobertas esse individuo terá seu cromossomo armazenado a parte como uma possivel resposta.
 
+Nota: para a seleção será usado o vetor de cromossomos da população e o top1 quando o top1 não for o melhor cromossomo da população. Caso sejam o mesmo será usado apenas o vetor de população.
+
 # Cruzamento
 
 O cruzamento mais comum é o por ponto aletatorio. Aonde é escolhido uma posição aleatoria nos cromossomos dos pais de forma que os genes a esquerda (ou direita) da posição indicada é adicionado a um cromossomo filho junto da parte oposta do segundo cromossomo.
@@ -83,3 +85,7 @@ Uma solução para isso seria fazer o cruzamento por carta, de forma que ao faze
 A mutação é quando mudamos o valor de algum gene de um cromossomo aleatoriamente. No caso seria mudar a loja onde comprariamos uma carta.
 
 Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de forma aleatoria.
+
+# Inserção 
+
+A inserção vai ser 
