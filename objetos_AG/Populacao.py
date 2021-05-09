@@ -7,42 +7,35 @@ import copy
 class Populacao:
     tam = 0
 
-    def __init__(self, pedido, frete, tam, top1):
+    def __init__(self, pedido, frete, tam, top1, aux):
         self.populacao = []
         self.pais = []
         self.filhos = []
         num = 10
         tam
         div = int(tam/num)
-        resto =int(tam%num)
+        resto = int(tam % num)
         for id in range(num):
             if(id == (num-1)):
-                t = Thread(target=self.thr(div+resto, pedido, frete))
+                t = Thread(target=self.thr(div+resto, pedido, frete, aux))
                 t.start()
                 t.join()
             else:
-                t = Thread(target=self.thr(div, pedido, frete))
+                t = Thread(target=self.thr(div, pedido, frete, aux))
                 t.start()
                 t.join()
+        # print(len(self.populacao))
+        copiaPopulacao = copy.deepcopy(self.populacao)
         mergeSort(self.populacao)
         if(self.populacao[0].getFitness() < top1.getFitness()):
             self.top1 = self.populacao[0]
-            copiaPopulacao = copy.deepcopy(self.populacao)
             self.pais.append(roleta1(copiaPopulacao))
             self.pais.append(roleta1(copiaPopulacao))
         else:
             self.top1 = top1
-            copiaPopulacao = copy.deepcopy(self.populacao)
             self.pais.append(roleta(copiaPopulacao, self.top1))
             self.pais.append(roleta(copiaPopulacao, self.top1))
         #print("Top1: " + str(self.top1.getFitness()) + "\nCromossomo: " + str(cromossomo.getFitness()))
-
-    def thr(self, tam, pedido, frete):
-        for i in range(tam):
-            cromossomo = C()
-            cromossomo.preencherCromossomo(pedido)
-            cromossomo.avaliacao(frete)
-            self.populacao.append(cromossomo)
 
     def getTop1(self):
         return self.top1
@@ -73,6 +66,28 @@ class Populacao:
         for item in self.populacao:
             texto += "Fitness: R$" + str(item.getFitness()) + ".\n"
         return texto
+
+    def thr(self, tam, pedido, frete, aux):
+        for i in range(tam):
+            cromossomo = C()
+            cromossomo.preencherCromossomo(pedido, frete, aux)
+            cromossomo.avaliacao(frete)
+            self.populacao.append(cromossomo)
+
+    def thrInsercao(self, tam, pedido, frete, top1, aux):
+        for i in range(tam):
+            cromossomo = C()
+            cromossomo.preencherCromossomo(pedido, frete, aux)
+            status = randint(0, 2)
+            if(status == 0):
+                self.cruzamentoMultiPontosInsercao(cromossomo, top1, frete)
+            elif(status == 1):
+                self.cruzamentoMultiPontosInsercao(
+                    cromossomo, self.pais[0], frete)
+            else:
+                self.cruzamentoMultiPontosInsercao(
+                    cromossomo, self.pais[1], frete)
+            self.populacao.append(cromossomo)
 
     def cruzamentoMonoPonto(self, pedido, frete):
         ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
@@ -189,20 +204,23 @@ class Populacao:
                 #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho)
 
-    def insercao(self, pedido, frete, tam, top1):
+    def insercao(self, pedido, frete, tam, top1, aux):
         self.populacao = []
-        for i in range(tam):
-            status = randint(0, 1)
-            if(status == 0):
-                cromossomo = C()
-                cromossomo.preencherCromossomo(pedido)
-                self.cruzamentoMultiPontosInsercao(
-                    cromossomo, self.pais[0], frete)
+        num = 10
+        tam
+        div = int(tam/num)
+        resto = int(tam % num)
+        for id in range(num):
+            if(id == (num-1)):
+                t = Thread(target=self.thrInsercao(
+                    div+resto, pedido, frete, top1, aux))
+                t.start()
+                t.join()
             else:
-                cromossomo = C()
-                cromossomo.preencherCromossomo(pedido)
-                self.cruzamentoMultiPontosInsercao(
-                    cromossomo, self.pais[1], frete)
+                t = Thread(target=self.thrInsercao(
+                    div, pedido, frete, top1, aux))
+                t.start()
+                t.join()
         mergeSort(self.populacao)
         if(self.populacao[0].getFitness() < top1.getFitness()):
             self.top1 = self.populacao[0]

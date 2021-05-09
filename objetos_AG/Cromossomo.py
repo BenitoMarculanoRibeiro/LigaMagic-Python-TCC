@@ -20,18 +20,14 @@ class Cromossomo:
     def setFitness(self, fitness):
         self.fitness = fitness
 
-    def preencherCromossomo(self, pedido):
+    def preencherCromossomo(self, pedido, frete, aux):
         copiaPedido = copy.deepcopy(pedido)
         for item in copiaPedido:
-            vet = []
-            for i in range(len(copiaPedido[0].getCarta().getPrecos())):
-                vet.append(i)
-            random.shuffle(vet)
+            random.shuffle(aux)
             for j in range(int(item.getQtd())):
-                for i in vet:
+                for i in aux:
                     try:
-                        loja = item.getCarta().getQtd()[i]
-                        if(int(loja) > 0):
+                        if(int(item.getCarta().getQtd()[i]) > 0):
                             #print("Id Carta: "+str(item.getCarta().getId()) + " Posicao " + str(i) + " qtd: " + str(loja))
                             gene = Gene()
                             gene.setCarta(item.getCarta())
@@ -43,13 +39,13 @@ class Cromossomo:
                             # print(gene.toString())
                             break
                     except:
-                        print("Aviso " + str(loja)+", tipo: " +
-                              str(type(loja) is int))
+                        print("Erro preencherCromossomo")
                         pass
-                    if(i == vet[-1]):
+                    if(i == aux[-1]):
                         print("Acabou a carta: " +
                               str(item.getCarta().getNome())) + ". Pedido Invalido."
                         return False
+        self.avaliacao(frete)
 
     def avaliacao(self, frete):
         fitness = 0

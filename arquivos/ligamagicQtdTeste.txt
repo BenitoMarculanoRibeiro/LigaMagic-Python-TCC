@@ -1,5 +1,5 @@
- |Site1|Site2|Site3|Site4|Site5|Site6
-Abbey Griffin|16|322|6|65|5|24
-Angel of Flight Alabaster|16|160|32|5|5|1
-Angelic Overseer|16|1|32|8|3|1
-Avacynian Priest|20|35|29|27|40|15
+ 	Site1	Site2	Site3	Site4	Site5	Site6
+Abbey Griffin	16	322	6	65	5	25
+Angel of Flight Alabaster	16	160	32	5	5	15
+Angelic Overseer	16	1	32	8	3	44
+Avacynian Priest	20	35	29	27	40	64
