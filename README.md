@@ -84,7 +84,7 @@ Uma solução para isso seria fazer o cruzamento por carta, de forma que ao faze
 
 A mutação é quando mudamos o valor de algum gene de um cromossomo aleatoriamente. No caso seria mudar a loja onde comprariamos uma carta.
 
-Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de forma aleatoria.
+Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de forma aleatoria. Sendo assim foi programado para a chance de mutação ser de 1%.
 
 # Inserção 
 

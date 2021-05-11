@@ -71,8 +71,8 @@ class Cromossomo:
                 vetLoja.append(gen.getLoja())
         return round(fitness, 2)
 
-    def mutacao(self, frete, chance):
-        if(random.randint(0, 100) < chance and len(self.cromossomo)>0):
+    def mutacao(self, frete):
+        if(len(self.cromossomo)>0):
             #print(len(self.cromossomo))
             gene = self.cromossomo[random.randint(0, len(self.cromossomo)-1)]
             gene.getCarta().mais1(gene.getLoja())
@@ -81,11 +81,12 @@ class Cromossomo:
             if(int(loja) > 0):
                 gene.setLoja(posLoja)
                 gene.getCarta().menos1(posLoja)
+                print("Mutou")
             # else:
                 # mutação falhou por falta de carta na loja
         # else:
             # mutação não vai acontecer por falta de chance
-        self.avaliacao(frete)
+            self.avaliacao(frete)
 
     def toString(self):
         texto = ""

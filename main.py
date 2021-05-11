@@ -16,20 +16,22 @@ arqPreco = control.lerArquivo("arquivos/ligamagicPreco.txt")
 arqQtd = control.lerArquivo("arquivos/ligamagicQtd.txt")
 arqPrecoTeste = control.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
 arqQtdTeste = control.lerArquivo("arquivos/ligamagicQtdTeste.txt")
+# frete é uma variavel que com os valores de frete por loja
 frete = control.geraVetorFrete(arqFretes)
 #frete = control.geraVetorFrete(arqFretesTeste)
+# pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
 pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
 #pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
 # geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
 # cont conta as falhas
 cont = 0
-
 # tam é o tamnho da população
-tam = 200
+tam = 100
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
-falhas = 200
-
+falhas = 1000
+# Chance de ocorrer mutação, é bom 1 = 1%
+chanceMutacao = 1
 aux = []
 for i in range(len(pedido[0].getCarta().getPrecos())):
     aux.append(i)
@@ -42,44 +44,21 @@ top1.setFitness(sys.maxsize)
 # Iniciando a população
 populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
 top1 = populacao.getTop1()
-'''
-populacao.cruzamentoMonoPonto1(pedido, frete)
-while True:
-    # Esse IF serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-    if cont >= falhas:
-        break
-    populacao.insercao(pedido, frete, tam, top1)
-    filho = []
-    filho.append(copy.deepcopy(top1))
-    filho.append(copy.deepcopy(populacao.getFilhos()[0]))
-    filho.append(copy.deepcopy(populacao.getFilhos()[1]))
-    for analise in filho:
-        analise.mutacao(frete, 50)
-        if(analise.getFitness() < top1.getFitness()):
-            top1 = analise
-            print("Filho:\n"+str(analise.toString()) + "Cont: "+str(cont))
-            #print("asldba "+str(len(top1.getCromossomo()))+"\n")
-            cont = 0
-'''
 populacao.cruzamentoMultiPontos(frete)
-while True:
+# Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
+while cont <= falhas:
     t1 = time()
-    # Esse IF serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-    if cont >= falhas:
-        break
     populacao.insercao(pedido, frete, tam, top1, aux)
-    filho = []
-    filho.append(copy.deepcopy(top1))
-    filho.append(copy.deepcopy(populacao.getFilhos()[0]))
-    filho.append(copy.deepcopy(populacao.getFilhos()[1]))
-    for analise in filho:
-        analise.mutacao(frete, 10)
-        if(analise.getFitness() < top1.getFitness()):
-            top1 = analise
-            print("Filho:\n"+str(analise.toString()) + "Cont: "+str(cont)+"\n")
-            #print("asldba "+str(len(top1.getCromossomo()))+"\n")
-            cont = 0
-
+    top1 = populacao.getTop1()
+    for analise in populacao.getPais():
+        if(random.randint(0, 100) < chanceMutacao):
+            filho = copy.deepcopy(analise)
+            analise.mutacao(frete)
+            if(analise.getFitness() < top1.getFitness()):
+                top1 = analise
+                print("Filho:\n"+str(analise.toString()) +
+                      "Cont: "+str(cont)+"\n")
+                cont = 0
     cont += 1
     geracoes += 1
     t2 = time()

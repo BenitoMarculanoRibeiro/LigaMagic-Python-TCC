@@ -11,7 +11,7 @@ class Populacao:
         self.populacao = []
         self.pais = []
         self.filhos = []
-        num = 10
+        num = 20
         tam
         div = int(tam/num)
         resto = int(tam % num)
@@ -35,7 +35,7 @@ class Populacao:
             self.top1 = top1
             self.pais.append(roleta(copiaPopulacao, self.top1))
             self.pais.append(roleta(copiaPopulacao, self.top1))
-        #print("Top1: " + str(self.top1.getFitness()) + "\nCromossomo: " + str(cromossomo.getFitness()))
+        # print("Top1: " + str(self.top1.getFitness()) + "\nCromossomo: " + str(cromossomo.getFitness()))
 
     def getTop1(self):
         return self.top1
@@ -74,20 +74,23 @@ class Populacao:
             cromossomo.avaliacao(frete)
             self.populacao.append(cromossomo)
 
+    '''
     def thrInsercao(self, tam, pedido, frete, top1, aux):
         for i in range(tam):
             cromossomo = C()
             cromossomo.preencherCromossomo(pedido, frete, aux)
             status = randint(0, 2)
             if(status == 0):
-                self.cruzamentoMultiPontosInsercao(cromossomo, top1, frete)
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, top1, pedido, frete)
             elif(status == 1):
-                self.cruzamentoMultiPontosInsercao(
-                    cromossomo, self.pais[0], frete)
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, self.pais[0], pedido, frete)
             else:
-                self.cruzamentoMultiPontosInsercao(
-                    cromossomo, self.pais[1], frete)
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, self.pais[1], pedido, frete)
             self.populacao.append(cromossomo)
+    '''
 
     def cruzamentoMonoPonto(self, pedido, frete):
         ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
@@ -132,11 +135,11 @@ class Populacao:
         self.filhos[0].avaliacao(frete)
         self.filhos[1].avaliacao(frete)
         for i in self.filhos:
-            #print("Top1 "+str(self.top1.getFitness()))
-            #print("I "+str(i.getFitness()))
+            # print("Top1 "+str(self.top1.getFitness()))
+            # print("I "+str(i.getFitness()))
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
-
+    '''
     def cruzamentoMonoPonto1Insercao(self, pai, mae, pedido, frete):
         ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
         pos = 0
@@ -154,8 +157,9 @@ class Populacao:
         for i in self.filhos:
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
-                #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
+                # print("Filho " + str(i.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho)
+    '''
 
     def cruzamentoMultiPontos(self, frete):
         pos = 0
@@ -178,11 +182,11 @@ class Populacao:
         self.filhos[0].avaliacao(frete)
         self.filhos[1].avaliacao(frete)
         for i in self.filhos:
-            #print("Top1 "+str(self.top1.getFitness()))
-            #print("I "+str(i.getFitness()))
+            # print("Top1 "+str(self.top1.getFitness()))
+            # print("I "+str(i.getFitness()))
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
-                #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
+                # print("Filho " + str(i.getFitness())+" é melhor que o Top1")
 
     def cruzamentoMultiPontosInsercao(self, pai, mae, frete):
         pos = 0
@@ -201,26 +205,65 @@ class Populacao:
         for i in self.filhos:
             if(self.top1.getFitness() > i.getFitness()):
                 self.top1 = i
-                #print("Filho " + str(i.getFitness())+" é melhor que o Top1")
+                # print("Filho " + str(i.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho)
+
+    def cruzamentoMonoPonto1Insercao(self, pai, mae, pedido, frete):
+        ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
+        status = 0
+        filho1 = C()
+        filho2 = C()
+        for pos in range(len(mae.getCromossomo())):
+            if(int(pai.getCromossomo()[pos].getCarta().getId()) == int(ponto)):
+                status = 1
+            if(status == 0):
+                filho1.getCromossomo().append(pai.getCromossomo()[pos])
+                filho2.getCromossomo().append(mae.getCromossomo()[pos])
+            else:
+                # print(filho1.toString())
+                filho1.getCromossomo().append(mae.getCromossomo()[pos])
+                filho2.getCromossomo().append(pai.getCromossomo()[pos])
+        filho1.avaliacao(frete)
+        filho2.avaliacao(frete)
+        if(self.top1.getFitness() > filho1.getFitness()):
+            self.top1 = filho1
+            print("Filho1 " + str(filho1.getFitness())+" é melhor que o Top1")
+        if(self.top1.getFitness() > filho2.getFitness()):
+            self.top1 = filho2
+            print("Filho2 " + str(filho2.getFitness())+" é melhor que o Top1")
+        self.populacao.append(filho1)
+        self.populacao.append(filho2)
 
     def insercao(self, pedido, frete, tam, top1, aux):
         self.populacao = []
-        num = 10
-        tam
-        div = int(tam/num)
-        resto = int(tam % num)
-        for id in range(num):
-            if(id == (num-1)):
-                t = Thread(target=self.thrInsercao(
-                    div+resto, pedido, frete, top1, aux))
-                t.start()
-                t.join()
+        self.top1 = top1
+        for id in range(tam):
+            cromossomo = C()
+            cromossomo.preencherCromossomo(pedido, frete, aux)
+            if(cromossomo.getFitness() < self.top1.getFitness()):
+                self.top1 = cromossomo
+                print("Novo Cromossomo:\n"+str(cromossomo.toString())+"\n")
+            status = randint(0, 2)
+            if(status == 0):
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, self.top1, pedido, frete)
+            elif(status == 1):
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, self.pais[0], pedido, frete)
             else:
-                t = Thread(target=self.thrInsercao(
-                    div, pedido, frete, top1, aux))
-                t.start()
-                t.join()
+                self.cruzamentoMonoPonto1Insercao(
+                    cromossomo, self.pais[1], pedido, frete)
+            # self.populacao.append(cromossomo)
+            if(cromossomo.getFitness() < self.top1.getFitness()):
+                self.top1 = cromossomo
+                print("Inserção:\n"+str(cromossomo.toString())+"\n")
+
+        copiaPopulacao = copy.deepcopy(self.populacao)
+        self.setPais(aleatorio(copiaPopulacao), 0)
+        self.setPais(aleatorio(copiaPopulacao), 1)
+
+
+'''
         mergeSort(self.populacao)
         if(self.populacao[0].getFitness() < top1.getFitness()):
             self.top1 = self.populacao[0]
@@ -232,6 +275,8 @@ class Populacao:
             copiaPopulacao = copy.deepcopy(self.populacao)
             self.setPais(roleta(copiaPopulacao, self.top1), 0)
             self.setPais(roleta(copiaPopulacao, self.top1), 1)
+            
+'''
 
 
 def mergeSort(alist):
@@ -260,6 +305,10 @@ def mergeSort(alist):
             alist[k] = righthalf[j]
             j = j+1
             k = k+1
+
+
+def aleatorio(lista):
+    return lista.pop(randint(0, len(lista)-1))
 
 
 def roleta(lista, top1):
