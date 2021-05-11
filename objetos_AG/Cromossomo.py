@@ -86,7 +86,7 @@ class Cromossomo:
                 # mutação falhou por falta de carta na loja
         # else:
             # mutação não vai acontecer por falta de chance
-            self.avaliacao(frete)
+                self.avaliacao(frete)
 
     def toString(self):
         texto = ""

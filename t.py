@@ -25,3 +25,14 @@ filho2 = lista2[0:corte] + lista1[corte::]
 
 print(filho1)
 print(filho2)
+
+
+#exclusão de elementos num intervalo
+
+
+del(lista1[1:4])
+print(lista1)
+
+#exclusão de elementos que estejam entre intervalo
+del(lista2[2::])
+print(lista2)

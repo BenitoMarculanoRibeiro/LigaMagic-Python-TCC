@@ -20,7 +20,7 @@ arqQtdTeste = control.lerArquivo("arquivos/ligamagicQtdTeste.txt")
 frete = control.geraVetorFrete(arqFretes)
 #frete = control.geraVetorFrete(arqFretesTeste)
 # pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
-pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
+pedido = control.geraPedido(arqPedido3, arqPreco, arqQtd)
 arqPreco.clear()
 arqQtd.clear()
 #pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)

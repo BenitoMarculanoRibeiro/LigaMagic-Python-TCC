@@ -15,8 +15,7 @@ def lerArquivo(caminho):
 
 def lerArquivo2(caminho):
     vet = []
-    f = open(caminho, 'r')
-    for line in f:
+    for line in open(caminho, 'r'):
         c = []
         linha = line.split("|")
         for collun in linha:

@@ -21,25 +21,18 @@ frete = control.geraVetorFrete(arqFretes)
 #frete = control.geraVetorFrete(arqFretesTeste)
 # pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
 pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
-arqPreco.clear()
-arqQtd.clear()
-#pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
-# geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
 # cont conta as falhas
 cont = 0
 # tam é o tamnho da população
-tam = 1000
+tam = 100
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
 falhas = 100
-# tempo é por quanto tempo quer rodar o programa em segundos
-tempo = 360
 # Chance de ocorrer mutação, é bom 1 = 1%
 chanceMutacao = 1
 aux = []
 for i in range(len(pedido[0].getCarta().getPrecos())):
     aux.append(i)
-
 tic = time()
 # Iniciando Top1 Global
 top1 = Cromossomo.Cromossomo()
@@ -51,9 +44,9 @@ populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
 top1 = populacao.getTop1()
 populacao.cruzamentoMultiPontos(frete)
 # Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-while (time()-tic) < tempo:
+while cont <= falhas:
     t1 = time()
-    populacao.insercao2(pedido, frete, tam, top1, aux)
+    populacao.insercao(pedido, frete, tam, top1, aux, 0.5)
     if(top1.getFitness() > populacao.getTop1().getFitness()):
         cont = 0
         top1 = populacao.getTop1()
@@ -63,8 +56,8 @@ while (time()-tic) < tempo:
             filho.mutacao(frete)
             if(filho.getFitness() < top1.getFitness()):
                 top1 = filho
-                print("Filho: "+str(filho.toString()) +
-                      "Cont: "+str(cont))
+                print("Filho:\n"+str(filho.getFitness()) +
+                      "Cont: "+str(cont)+"\n")
                 cont = 0
             '''
             if(populacao.getTop1().getFitness() < top1.getFitness()):
@@ -76,8 +69,7 @@ while (time()-tic) < tempo:
     cont += 1
     geracoes += 1
     t2 = time()
-    print("Geração: "+str(geracoes)+" Cont: "+str(cont) +
-          " Tempo de processamento: " + str(t2-t1)+"s.")
+    print("Geração: "+str(geracoes)+" Cont: "+str(cont)+" Tempo de processamento: " + str(t2-t1)+"s.")
 toc = time()
 # Top1 Global
 print("Top1 Global:\n"+str(top1.toString()) + "\n")
