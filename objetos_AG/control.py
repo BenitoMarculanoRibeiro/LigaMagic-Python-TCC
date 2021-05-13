@@ -1,3 +1,4 @@
+# coding: utf-8
 from .item import Item
 from .carta import Carta
 from .frete import Frete
@@ -8,7 +9,7 @@ def lerArquivo(caminho):
         c = []
         linha = line.split("	")
         for collun in linha:
-            c.append(collun)
+            c.append(collun.rstrip("\n"))
         vet.append(c)
     return vet
 

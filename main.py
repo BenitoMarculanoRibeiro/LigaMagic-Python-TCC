@@ -1,3 +1,4 @@
+# coding: utf-8
 from objetos_AG import control, Cromossomo, Populacao
 from time import time
 import random
@@ -29,17 +30,16 @@ geracoes = 0
 # cont conta as falhas
 cont = 0
 # tam é o tamnho da população
-tam = 500
+tam = 400
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
 falhas = 100
 # tempo é por quanto tempo quer rodar o programa em segundos
 tempo = 360
 # Chance de ocorrer mutação, é bom 1 = 1%
-chanceMutacao = 1
+chanceMutacao = 3
 aux = []
 for i in range(len(pedido[0].getCarta().getPrecos())):
     aux.append(i)
-
 tic = time()
 # Iniciando Top1 Global
 top1 = Cromossomo.Cromossomo()

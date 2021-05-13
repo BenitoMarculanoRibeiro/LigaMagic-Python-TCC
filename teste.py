@@ -1,91 +1,55 @@
-from objetos_AG import control, Cromossomo, Populacao, gene
+from objetos_AG import control, Cromossomo, Populacao
+from time import time
 import random
 import copy
 import sys
 
 # Recebendo dados dos arquivos
-arqFretes = control.lerArquivo("arquivos/ligamagicFreteTeste.txt")
-arqPedidoTeste = control.lerArquivo2("arquivos/pedidoteste.txt")
+arqFretes = control.lerArquivo("arquivos/ligamagicFrete.txt")
+arqFretesTeste = control.lerArquivo("arquivos/ligamagicFreteTeste.txt")
+arqPedidoTeste = control.lerArquivo("arquivos/pedidoteste.txt")
 arqPedido1 = control.lerArquivo("arquivos/ligamagicPedido1.txt")
 arqPedido2 = control.lerArquivo("arquivos/ligamagicPedido2.txt")
 arqPedido3 = control.lerArquivo("arquivos/ligamagicPedido3.txt")
 arqPedido4 = control.lerArquivo("arquivos/ligamagicPedido4.txt")
-arqPreco = control.lerArquivo2("arquivos/ligamagicPreco.txt")
-arqQtd = control.lerArquivo2("arquivos/ligamagicQtd.txt")
-arqPrecoTeste = control.lerArquivo2("arquivos/ligamagicPrecoTeste.txt")
-arqQtdTeste = control.lerArquivo2("arquivos/ligamagicQtdTeste.txt")
+arqPreco = control.lerArquivo("arquivos/ligamagicPreco.txt")
+arqQtd = control.lerArquivo("arquivos/ligamagicQtd.txt")
+arqPrecoTeste = control.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
+arqQtdTeste = control.lerArquivo("arquivos/ligamagicQtdTeste.txt")
+# frete é uma variavel que com os valores de frete por loja
 frete = control.geraVetorFrete(arqFretes)
-pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
-# print(pedido[1].getCarta().getPrecos()[72])
-num = 0
-for i in pedido:
-    num += int(i.getQtd())
-#print("Qtd estimado: " + str(86**num))
-print(len(pedido))
-top1 = Cromossomo.Cromossomo()
-top1.setFitness(sys.maxsize)
+#frete = control.geraVetorFrete(arqFretesTeste)
+# pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
+pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
+arqPreco.clear()
+arqQtd.clear()
+#pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
+# geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
-for i in range(6):
-    # for k in range(86):
-    copiaPedido = copy.deepcopy(pedido)
-    loja1 = copiaPedido[0].getCarta().getQtd()[i]
+# cont conta as falhas
+cont = 0
+# tam é o tamnho da população
+tam = 50
+# falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
+falhas = 100
+# tempo é por quanto tempo quer rodar o programa em segundos
+tempo = 360
+# Chance de ocorrer mutação, é bom 1 = 1%
+chanceMutacao = 3
+aux = []
+for i in range(len(pedido[0].getCarta().getPrecos())):
+    aux.append(i)
 
-    cromossomo = Cromossomo.Cromossomo()
-    if(int(loja1) > 0):
-        gene1 = gene.Gene()
-        gene1.setCarta(copiaPedido[0].getCarta())
-        gene1.setLoja(i)
-        copiaPedido[0].getCarta().menos1(i)
-        cromossomo.getCromossomo().append(gene1)
-        # cromossomo.getCromossomo().append(gene3)
-        cromossomo.avaliacao(frete)
-
-        if(cromossomo.getFitness() < top1.getFitness()):
-            top1 = cromossomo
-            print("Filho:\n"+str(cromossomo.toString()) +
-                  "Cont: "+str(geracoes)+"\n")
-    geracoes += 1
-    # print(geracoes)
-
-
-'''
-for i in range(6):
-    for j in range(6):
-        # for k in range(86):
-        copiaPedido = copy.deepcopy(pedido)
-        loja1 = copiaPedido[0].getCarta().getQtd()[i]
-        loja2 = copiaPedido[1].getCarta().getQtd()[j]
-        #loja3 = copiaPedido[1].getCarta().getQtd()[k]
-
-        cromossomo = Cromossomo.Cromossomo()
-        if(int(loja1) > 0):
-            gene1 = gene.Gene()
-            gene1.setCarta(copiaPedido[0].getCarta())
-            gene1.setLoja(i)
-            copiaPedido[0].getCarta().menos1(i)
-            if(int(loja2) > 0):
-                gene2 = gene.Gene()
-                gene2.setCarta(copiaPedido[1].getCarta())
-                gene2.setLoja(j)
-                copiaPedido[1].getCarta().menos1(i)
-                if(int(loja3) > 0):
-                gene3 = gene.Gene()
-                gene3.setCarta(copiaPedido[1].getCarta())
-                gene3.setLoja(k)
-                copiaPedido[1].getCarta().menos1(i)
-                cromossomo.getCromossomo().append(gene1)
-                cromossomo.getCromossomo().append(gene2)
-                # cromossomo.getCromossomo().append(gene3)
-                cromossomo.avaliacao(frete)
-
-                if(cromossomo.getFitness() < top1.getFitness()):
-                    top1 = cromossomo
-                    print("Filho:\n"+str(cromossomo.toString()) +
-                          "Cont: "+str(geracoes)+"\n")
-        geracoes += 1
-        # print(geracoes)
-'''
-
-
-print("Top1 Global:\n"+str(top1.toString()) + "\n")
-print("Gerações: " + str(geracoes))
+tic = time()
+# Iniciando Top1 Global
+top1 = Cromossomo.Cromossomo()
+# Iniciando o Top1 com o valor do maior int possivel para que ao ser analisado posteriormente seja excluido
+top1.preencherCromossomo(pedido, frete, aux)
+top1.avaliacao(frete)
+# Iniciando a população
+populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
+top1 = populacao.getTop1()
+populacao.cruzamentoMultiPontos(frete)
+# Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
+populacao.insercao3(pedido, frete, tam, top1, aux)
+populacao.insercao3(pedido, frete, tam, top1, aux)

@@ -294,6 +294,30 @@ class Populacao:
         copiaPopulacao = copy.deepcopy(self.populacao)
         self.setPais(roleta(copiaPopulacao), 0)
         self.setPais(roleta(copiaPopulacao), 1)
+    
+    def insercao3(self, pedido, frete, tam, top1, aux):
+        self.top1 = top1
+        copiaPopulacao = copy.deepcopy(self.populacao)
+        for id in range(int(tam/2)):
+            self.cruzamentoMonoPonto(
+                aleatorio(copiaPopulacao), aleatorio(copiaPopulacao), pedido, frete)
+            #print(len(self.populacao))
+        for id in range(tam):
+            cromossomo = C()
+            cromossomo.preencherCromossomo(pedido, frete, aux)
+            self.populacao.append(cromossomo)
+            if(cromossomo.getFitness() < self.top1.getFitness()):
+                self.top1 = cromossomo
+                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
+        #print(len(self.populacao))
+        print(self.toStringValor())
+        print(len(self.populacao))
+        mergeSort(self.populacao)
+        print(len(self.populacao))
+        print(self.toStringValor())
+        del(self.populacao[tam::])
+        print(len(self.populacao))
+        print(self.toStringValor())
     '''
     def insercao(self, pedido, frete, tam, top1, aux):
         self.populacao = []

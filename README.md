@@ -88,4 +88,19 @@ Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de 
 
 # Inserção 
 
-A inserção vai ser 
+A inserção vai servir para 
+
+# Programando em Python
+
+O Python possui uma tipagem dinamica, o que faz com que objetos possam assumir varios tipos e serem mudados de acordo com a nescessidade do desenvolvedor, fazendo que seja extremamente simples criar scripts em Python graças a esse nivel de abstração. 
+
+O que realmente reduz o desempenho do Python em relação a outras linguagens é justamente esse ponto.
+
+A compilação de um codigo é deixar as intruções o mais claras possivel para a maquina, resolvendo o maximo de problemas possiveis de antemão. Deixando o codigo de maquina (bytecode) tão claro que possa rodar sem mais orientações do programador.
+
+E como a abstração do PYthon é muito grande isso pesa muito ao ser compilado, por exemplo, o simples fato de não definir o tipo do objeto faz com que o compilador tenha mais trabalho para ele mesmo definir o comportamento da variavel. Desta forma, linguagens como o Java ou C que transferem o "trabalho bruto" para o programador se tornam muito mais eficientes
+
+O Python usa a tecnica JIT (Just-in-Time), ela faz a compilação em tempo de execução assim podendo ser usado ao seu favor caracteristicas da maquina que está sendo usada e também pode traduzir blocos de código em vez de avaliar e executar linha por linha, incrementando assim a sua performance.
+
+
+O principal problema para programar em python é a sua lentidão para rodar seus scripts.
