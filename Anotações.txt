@@ -1,0 +1,299 @@
+[5:59 PM, 13/05/2021] Benito Marculano Ribeiro: Alguma das seguintes afirmativas está errada/incorreta/ou levemente incompleta? Tenham em mente que estou falando do desempenho do Python.
+
+O Python possui uma tipagem dinâmica, o que faz com que objetos possam assumir vários tipos e serem mudados de acordo com a necessidade do desenvolvedor, fazendo que seja extremamente simples criar scripts em Python graças a esse nível de abstração. 
+
+O que realmente reduz o desempenho do Python em relação a outras linguagens é justamente esse ponto.
+
+A compilação de um código é deixar as instruções o mais claras possível para a maquina, resolvendo o máximo de problemas possíveis de antemão. Deixando o código de maquina (bytecode) tão claro que possa rodar sem mais orientações do programador.
+
+E como a abstração do Pytho…
+[6:03 PM, 13/05/2021] Benito Marculano Ribeiro: Pelo o que eu pesquisei ele compila/traduz para bitecode, não seria isso?
+[6:03 PM, 13/05/2021] +55 75 9162-4215: Não até onde eu saiba.
+[6:03 PM, 13/05/2021] +55 75 9162-4215: Pelo menos, dos cursos que fiz eles diziam que era essa a diferença.
+[6:04 PM, 13/05/2021] Benito Marculano Ribeiro: https://deavid.wordpress.com/2019/05/26/why-java-is-faster-than-python/
+"Outra coisa que ouvi é “Java é uma linguagem compilada e Python é interpretado, portanto, Java é muito mais rápido”. Também falso. Java é interpretado como Python ou Python compilado como Java. Ambas as linguagens compilam (ou transpilam) em bytecode, e um interpretador então executa essas instruções."
+[6:05 PM, 13/05/2021] +55 75 9162-4215: Ahhh, sim!
+[6:05 PM, 13/05/2021] Benito Marculano Ribeiro: Eu agradeço
+[6:06 PM, 13/05/2021] Benito Marculano Ribeiro: Mas se achar algo que diga o contrario eu aceito também
+[6:06 PM, 13/05/2021] +55 75 9162-4215: Vou dar uma pesquisada melhor aqui, man.
+[6:08 PM, 13/05/2021] Erick Lemos: Acredito que a tipagem dinâmica do python tenha haver com isso, porém deve ser quase ínfima sua importância diante de outros fatores
+[6:08 PM, 13/05/2021] Erick Lemos: Isso pq a tipagem dinâmica não dispensa tipos
+[6:08 PM, 13/05/2021] +55 75 9162-4215: https://qastack.com.br/software/24558/is-python-interpreted-or-compiled
+[6:09 PM, 13/05/2021] Erick Lemos: Pelo contrário, só os ocultas, por baixos dos panos python possui tipos assim como c++ ou Java
+[6:09 PM, 13/05/2021] Erick Lemos: Um dos testes que pode fazer para comprovar essa declaração é utilizar o Java 11
+[6:09 PM, 13/05/2021] Erick Lemos: Com sua tipagem dinâmica com "var"
+[6:10 PM, 13/05/2021] Erick Lemos: Então vc vai ter dois ambientes tipando dinamicamente algo
+[6:10 PM, 13/05/2021] +55 75 9162-4215: Entendi.
+[6:10 PM, 13/05/2021] Benito Marculano Ribeiro: Por ocultar, deixa mais trabalho para o compilador traduzir para bytecode
+[6:10 PM, 13/05/2021] Erick Lemos: Python passa muito longe de ser compilado
+[6:10 PM, 13/05/2021] Erick Lemos: Muito longe mesmo
+[6:10 PM, 13/05/2021] Erick Lemos: Bem longe mesmo
+[6:10 PM, 13/05/2021] Erick Lemos: Ele é apenas texto que é lido
+[6:11 PM, 13/05/2021] Erick Lemos: Em nenhum momento aquele arquivo python é transformado
+[6:11 PM, 13/05/2021] Erick Lemos: Apenas lido
+[6:11 PM, 13/05/2021] +55 75 9162-4215: Achei isso nesse fórum :
+
+Eu acho que você está realmente descrevendo que Python é o que eu chamaria de 'semi-compilado' ou pode ser compilado completamente. Por semi-compilado, quero dizer que, como geralmente é compilado no arquivo .pyc da 'linguagem intermediária' usado pela Máquina Virtual Python, ele geralmente está sendo executado a partir desse formulário 'semi-compilado', que geralmente torna o código mais rápido do que interpretação simples em tempo de execução do código interpretado. Curiosamente, o código semi-compilado às vezes pode ser mais rápido que o código compilado nativamente (por exemplo, o C # geralmente é mais rápido que o C ++).
+[6:11 PM, 13/05/2021] Erick Lemos: Java passa por um processo de preparo, onde alguns ajustes são feitos, deixando tudo mais "bonitinho" para a JVM
+[6:12 PM, 13/05/2021] Benito Marculano Ribeiro: O que é lido é compilado em tempo de execução (JIT)
+[6:12 PM, 13/05/2021] +55 75 9162-4215: Python se enquadra no código de bytes interpretado. .pyO código fonte é primeiro compilado para código de bytes como .pyc. Esse código de byte pode ser interpretado (CPython oficial) ou compilado por JIT (PyPy). O código-fonte Python ( .py) pode ser compilado para código de bytes diferentes também como IronPython (.Net) ou Jython (JVM). Existem várias implementações da linguagem Python. O oficial é um código de bytes interpretado. Também há implementações compiladas por JIT com código de bytes.
+
+Para comparações de velocidade de várias implementações de idiomas, você pode tentar aqui .
+[6:12 PM, 13/05/2021] Erick Lemos: Java fará o mesmo como disse
+[6:12 PM, 13/05/2021] Erick Lemos: Com a versão 11
+[6:13 PM, 13/05/2021] +55 75 9162-4215: Isso!
+[6:13 PM, 13/05/2021] Erick Lemos: Porém Java possui todo o cuidado de otimização no seu empacotamento
+[6:13 PM, 13/05/2021] +55 75 9162-4215: Java, C#...
+[6:13 PM, 13/05/2021] Erick Lemos: Os genéricos são um dos exemplos que são transformados
+[6:14 PM, 13/05/2021] Benito Marculano Ribeiro: Mas como definimos variveis isso facilita o processo para o compilador, já que ele não vai ter que "descobrir" o tipo do objeto que desclaramos
+[6:14 PM, 13/05/2021] +55 75 9162-4215: Da para usar o argumento de rótulo solto, nesse quesito.
+[6:14 PM, 13/05/2021] +55 75 9162-4215: No final, depende de qual nível de abstração você está falando e com o que você se importa. As pessoas dizem "compilado" ou "interpretado" como descrições amplas das partes mais interessantes do processo, mas, na verdade, quase todos os programas são compilados (traduzidos) e interpretados (executados) de uma maneira ou de outra.
+
+O CPython (a implementação mais popular da linguagem Python) é principalmente interessante para a execução de código. Portanto, o CPython normalmente seria descrito como interpretado. Embora este seja um rótulo solto.
+[6:16 PM, 13/05/2021] Erick Lemos: No caso do Java ele irá descobrir, caso utilize o "var", ex:
+
+var algo = "algo"
+
+Ele irá tipar aquilo como String por baixo dos panos
+[6:17 PM, 13/05/2021] Benito Marculano Ribeiro: Sim, mas o quem está baixo dos panos do Java é melhor de quem está baixo dos panos do Python
+[6:17 PM, 13/05/2021] Erick Lemos: Outra coisa bem superior do Java é seu gerenciamento de dados
+[6:17 PM, 13/05/2021] Erick Lemos: Onde vamos ter o Heap e o Stack
+[6:18 PM, 13/05/2021] Erick Lemos: E outra linguagem, mais próxima do python e que põem parte do que falamos abaixo é o Js + node
+[6:18 PM, 13/05/2021] +55 75 9162-4215: @Benito Marculano Ribeiro
+[6:18 PM, 13/05/2021] +55 75 9162-4215: https://docs.python.org/3/faq/design.html?highlight=cpython%20cpython#can-python-be-compiled-to-machine-code-c-or-some-other-language
+[6:18 PM, 13/05/2021] +55 75 9162-4215: Fonte oficial!
+[6:19 PM, 13/05/2021] Erick Lemos: Javascript possui todos os elementos do python, single thread, tipagem dinâmica e interpretado
+[6:19 PM, 13/05/2021] Erick Lemos: E ainda sim, conseguem ser dezenas de vezes mais performático
+[6:19 PM, 13/05/2021] Benito Marculano Ribeiro: Vou olhar aqui
+[6:20 PM, 13/05/2021] Erick Lemos: Na verdade, é mais interessante comparar python ao Js do que ao Java
+[6:20 PM, 13/05/2021] Erick Lemos: Eles possuem muitas coisas em comum
+[6:20 PM, 13/05/2021] Erick Lemos: E que argumentos do tipo "é interpretado ao invés de compilado" não funciona
+[6:21 PM, 13/05/2021] Erick Lemos: Seu TCC seria bem mais elaborado
+[6:21 PM, 13/05/2021] Erick Lemos: Pois fugiria de todos os artigos que vimos no Google
+[6:21 PM, 13/05/2021] +55 75 9162-4215: Ele compila uma versão modificada dentro de extensões C, mas não em máquina.
+[6:22 PM, 13/05/2021] +55 75 9162-4215: Isso é meio que considerado como interpretado.
+Foi como eu disse, ele meio que monta peças em C.
+[6:22 PM, 13/05/2021] Benito Marculano Ribeiro: Eu já tinha um Algoritmo Genetico pronto em Java e estava aprendendo Python
+[6:22 PM, 13/05/2021] +55 75 9162-4215: Não usa isso no teu TCC, vai pegar mau, eu só ilustrei.
+[6:22 PM, 13/05/2021] Erick Lemos: Entendi
+[6:22 PM, 13/05/2021] Erick Lemos: Mas é interessante falar sobre o interpretador do python
+[6:23 PM, 13/05/2021] Erick Lemos: Pq de fato, muito dos problemas estão neles
+[6:23 PM, 13/05/2021] Benito Marculano Ribeiro: Se a vida te dá limão, faça uma caipirinha
+[6:23 PM, 13/05/2021] Erick Lemos: E já ouvi muito mal da sua estrutura
+[6:23 PM, 13/05/2021] Erick Lemos: Python é tão genial, que dependendo da forma que vc faça um for
+[6:23 PM, 13/05/2021] Erick Lemos: Vai mudar o tempo que ele irá passar para concluir aqui
+[6:23 PM, 13/05/2021] Erick Lemos: Aquilo
+[6:24 PM, 13/05/2021] Erick Lemos: Variando de 10ms a 100ms
+[6:24 PM, 13/05/2021] +55 75 9162-4215: Verdade.
+[6:24 PM, 13/05/2021] Erick Lemos: Essas formas de escrever código foram apelidadas de filosofia ou código pythonico
+[6:25 PM, 13/05/2021] +55 75 9162-4215: Sim!
+[6:25 PM, 13/05/2021] Erick Lemos: Um código pythonico é mais perfomatico que um código python comum
+[6:25 PM, 13/05/2021] +55 75 9162-4215: Vem cá, Python é considerada linguagem de quarta geração?
+[6:25 PM, 13/05/2021] +55 75 9162-4215: 🤔
+[6:25 PM, 13/05/2021] +55 75 9162-4215: Surgiu a dúvida do nada.
+[6:25 PM, 13/05/2021] Benito Marculano Ribeiro: Não sei dizer
+[6:27 PM, 13/05/2021] Benito Marculano Ribeiro: Então esses arquivos são codigo compilado para C?
+[6:28 PM, 13/05/2021] +55 75 9162-4215: É um código "compilado".
+Ele está em bytes, para na próxima vez não precisar ler.
+Mas xo pegar um livro aqui, que já li sobre isso de forma melhor.
+[6:29 PM, 13/05/2021] Benito Marculano Ribeiro: Cara foda.
+[6:29 PM, 13/05/2021] +55 75 9162-4215: Vou te mandar mais sobre o interpretador dele.
+[6:29 PM, 13/05/2021] +55 75 9162-4215: Que tem nesse livro.
+[6:30 PM, 13/05/2021] Benito Marculano Ribeiro: Beleza
+[6:31 PM, 13/05/2021] +55 75 9162-4215: Te mandei no telegram o livro.
+[6:31 PM, 13/05/2021] +55 75 9162-4215: Da ORilley
+[6:31 PM, 13/05/2021] Benito Marculano Ribeiro: Blz
+[6:32 PM, 13/05/2021] Benito Marculano Ribeiro: Vlw cara
+[6:33 PM, 13/05/2021] +55 75 9162-4215: Olha as páginas 26 à 28.
+[6:33 PM, 13/05/2021] Benito Marculano Ribeiro: Ainda bem que você falou as paginas, já estava desanimando  kkk
+[6:34 PM, 13/05/2021] +55 75 9162-4215: 🤣🤣🤣🤣🤣🤣🤣🤣
+[6:34 PM, 13/05/2021] +55 75 9162-4215: Já li isso quase tudo.
+[6:34 PM, 13/05/2021] +55 75 9162-4215: Tava fazendo um resumo, mas desanimei.
+Já tinha desanimado da linguagem em si, então parei com esse projetinho.
+[6:44 PM, 13/05/2021] +55 65 9959-2074: Python não é compilado. É interpretado
+[6:46 PM, 13/05/2021] +55 65 9959-2074: Python e Ruby são muito semelhantes. Ruby é a mais indicada para o python se comparar do que o java
+[6:47 PM, 13/05/2021] +55 65 9959-2074: Afinal, as duas tem filosofias e propósitos semelhantes
+[6:47 PM, 13/05/2021] +55 65 9959-2074: Rapidez, produtividade e eficiência
+[6:47 PM, 13/05/2021] Benito Marculano Ribeiro: Mas como comparariamos as diferenças?
+[6:47 PM, 13/05/2021] +55 65 9959-2074: Ruby foca mais a produtividade
+[6:47 PM, 13/05/2021] +55 65 9959-2074: Mas não deixa a desejar nas outras duas
+[6:48 PM, 13/05/2021] Benito Marculano Ribeiro: E também, já tinha uma parte pronta
+[6:48 PM, 13/05/2021] +55 65 9959-2074: Estudando as duas. Faça projetos bem abrangentes com as duas. E depois tire suas conclusões
+[6:48 PM, 13/05/2021] +55 65 9959-2074: Claro, vc pode ler a partir de especialistas também
+[6:48 PM, 13/05/2021] Erick Lemos: Porém Ruby é tão lerda quanto python
+[6:48 PM, 13/05/2021] +55 65 9959-2074: Ninguém aqui é especialista
+[6:48 PM, 13/05/2021] Erick Lemos: E o TCC dele fala sobre perfomance
+[6:49 PM, 13/05/2021] Benito Marculano Ribeiro: Pegar linguagens com performace diferentes fica mais facil defender na banca
+[6:49 PM, 13/05/2021] +55 65 9959-2074: Discordo. Python é feita em C e Fortran.
+[6:50 PM, 13/05/2021] +55 65 9959-2074: Tenha em mente que python e já atem propósitos diferentes
+[6:50 PM, 13/05/2021] Erick Lemos: https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/ruby-python3.html
+[6:50 PM, 13/05/2021] Erick Lemos: É como colocar duas tartarugas para brigar
+[6:50 PM, 13/05/2021] +55 65 9959-2074: Java*
+[6:50 PM, 13/05/2021] +55 21 96969-3229: Eu penso que:
+
+Python é
+[6:50 PM, 13/05/2021] Benito Marculano Ribeiro: Eu estou tentando fazer puro, não estou usando as bibliotecas que normalmente "traduzem" para C
+[6:51 PM, 13/05/2021] Erick Lemos: E jogamos contra o nodejs por ex: https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/ruby-node.html
+[6:51 PM, 13/05/2021] Erick Lemos: Vemos a diferença
+[6:51 PM, 13/05/2021] +55 65 9959-2074: As bibliotecas padrões do python são feitas em C e Fortran
+[6:51 PM, 13/05/2021] Erick Lemos: @Benito Marculano Ribeiro vc pode usar esse blog tbm
+[6:51 PM, 13/05/2021] Erick Lemos: Ele é muito bom, e seus testes são feitos com Scripts já existente para essa finalidade
+[6:52 PM, 13/05/2021] +55 75 9162-4215: Ruby é feita em C também, se não me engano.
+[6:52 PM, 13/05/2021] +55 75 9162-4215: 🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣
+[6:52 PM, 13/05/2021] Erick Lemos: Nas linguagens, o ditado "filho de peixe, peixinho é" não funciona
+[6:53 PM, 13/05/2021] +55 65 9959-2074: A maior utilização do Java na década passada era o Android. Agora foi substituída por Kotlin e Go
+[6:53 PM, 13/05/2021] Benito Marculano Ribeiro: Vou analizar melhor depois
+[6:53 PM, 13/05/2021] +55 75 9162-4215: True!
+[6:53 PM, 13/05/2021] +55 65 9959-2074: Pq? Por que havia muitos problemas
+[6:53 PM, 13/05/2021] Benito Marculano Ribeiro: Rinha de tartaruga, novo esporte para programadores
+[6:53 PM, 13/05/2021] +55 65 9959-2074: E Kotlin e Go resolvem melhor os problemas que Java não resolve bem
+[6:54 PM, 13/05/2021] +55 75 9162-4215: Sim!
+[6:54 PM, 13/05/2021] Benito Marculano Ribeiro: Vou fazer um jogo disso
+[6:54 PM, 13/05/2021] +55 75 9162-4215: A que vence é o PHP, vence o pior prêmio, obviamente.
+[6:54 PM, 13/05/2021] Erick Lemos: Famosa cobra que mais parece uma lesma
+[6:54 PM, 13/05/2021] +55 75 9162-4215: 🤣🤣🤣🤣🤣🤣
+[6:55 PM, 13/05/2021] Benito Marculano Ribeiro: Mas o que eu realmente preciso saber é o por que o python ser mais lento que o Java, nem preciso saber se é compilado ou interpretado, só o porque de ser mais lento que o Java
+[6:55 PM, 13/05/2021] Erick Lemos: Se falar isso para IBM, Google ou Red Hat, tu sai levando no mínimo um murro
+[6:56 PM, 13/05/2021] Erick Lemos: Se for falar isso hoje para a Netflix, tu com certeza leva um murro
+[6:56 PM, 13/05/2021] Erick Lemos: Essa causa esta no seu interpretador
+[6:56 PM, 13/05/2021] Erick Lemos: Isso é óbvio, mas a questão é
+[6:56 PM, 13/05/2021] Erick Lemos: Pq essa desgraça é tão lenta?
+[6:56 PM, 13/05/2021] +55 75 9162-4215: Real
+[6:57 PM, 13/05/2021] +55 75 9162-4215: 🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣
+[6:59 PM, 13/05/2021] +55 65 9959-2074: https://youtu.be/Qjk-cSW-jk4
+[7:04 PM, 13/05/2021] Erick Lemos: Aí você força a amizade
+[7:04 PM, 13/05/2021] Erick Lemos: 40 minutos de vídeo pro cara assistir
+[7:04 PM, 13/05/2021] Erick Lemos: Facilita igual o Rick
+[7:04 PM, 13/05/2021] Erick Lemos: Passou o livro e as páginas
+[7:05 PM, 13/05/2021] Erick Lemos: Coitado já deve tá tacando o dedinho na beira da mesa de tanto estresse com esse TCC
+[7:07 PM, 13/05/2021] +55 75 9162-4215: Boa!
+[7:07 PM, 13/05/2021] +55 75 9162-4215: Ahhhh, tem o blog do Akita.
+[7:07 PM, 13/05/2021] +55 75 9162-4215: Será que pode ter algo lá escrito?
+[7:07 PM, 13/05/2021] +55 75 9162-4215: Vou dar uma pesquisada.
+[7:07 PM, 13/05/2021] +55 75 9162-4215: 😎
+[7:07 PM, 13/05/2021] +55 75 9162-4215: @Benito Marculano Ribeiro vou caçar um artigo do akita.
+[7:08 PM, 13/05/2021] +55 75 9162-4215: Pq 40min de vídeos...
+Kakakakkakak
+[7:09 PM, 13/05/2021] +55 65 9959-2074: Se vc é um pesquisador, então vc não tem problemas em pesquisar. Consultar dezenas de bibliografias é um requisito mínimo para uma pesquisa
+[7:10 PM, 13/05/2021] +55 65 9959-2074: E outra, eu não sou especialista e provavelmente ninguém aqui é
+[7:10 PM, 13/05/2021] +55 65 9959-2074: Então eu preciso indicar alguém que é
+[7:11 PM, 13/05/2021] Erick Lemos: De fato, mas isso se faz para encontrar a informação específica que ele procura
+[7:11 PM, 13/05/2021] +55 65 9959-2074: O Fábio, explica muito bem. É difícil encontrar tal material e desta forma na internet
+[7:11 PM, 13/05/2021] Erick Lemos: Então vc varre 1000 artigos para encontre o ouro (2 artigos)
+[7:11 PM, 13/05/2021] Erick Lemos: Pq eu mandaria o coitado varrer os 1000 artigos se eu já sei os 2 que ele precisa?
+[7:12 PM, 13/05/2021] Erick Lemos: Porem vi um pouco do vídeo
+[7:12 PM, 13/05/2021] +55 75 9162-4215: @Benito Marculano Ribeiro
+[7:12 PM, 13/05/2021] Erick Lemos: Fala sobre o que já falamos
+[7:12 PM, 13/05/2021] +55 65 9959-2074: Pelo que eu sei uns 60% das pessoas aqui não fazem faculdade, e muito menos pesquisa científica
+[7:12 PM, 13/05/2021] +55 75 9162-4215: https://www.akitaonrails.com/2019/02/20/akitando-40-entendendo-back-end-para-iniciantes-em-programacao-parte-1-serie-comecando-aos-40
+[7:12 PM, 13/05/2021] +55 75 9162-4215: Você vai ver mais sobre esse tipo de escolha quando estiver usando linguagens que compilam em binários nativos, como C, C++, Pascal ou Object Pascal do Delphi, Objective-C ou Swift pra iOS e até em linguagens novas como o Google Go que eu falei a pouco e o Rust da Mozilla. Mas do outro lado espectro existe o conceito de um interpretador. Um interpretador é em si só um programa mas a função dele é ler código que você escreveu e traduzir em instruções pra máquina sem necessariamente precisar compilar esse código em binário nativo. Ou seja, ele depende de ter o código fonte do seu programa e traduzir, ou interpretar, o código toda vez que carrega.
+
+Ele contém partes de um compilador, como o parser. Pra interpretar o código que você escreveu, precisamos de um pr…
+[7:12 PM, 13/05/2021] +55 75 9162-4215: Como eu disse antes, um interpretador originalmente foi feito pra iniciar rápido e terminar rápido. No episódio anterior eu comecei a falar sobre servidores web. Todo sistema operacional lida com processos. Toda vez que você executa uma aplicação, seja o executável nativo compilado em C ou os interpretadores que citei antes que também são feitos em C ou C++, o trabalho do sistema operacional é carregar, alocar memória e criar um processo em execução. Em ambientes UNIX ou principalmente Linux criar processos é uma coisa relativamente barata, ordens de grandeza se comparar com MacOS ou Windows. Em Windows criar processos envolve mais peso ou o que chamamos de overhead, não é uma coisa barata e nem é porque ele é pior mas porque tem requerimentos diferentes. Pe…
+[7:13 PM, 13/05/2021] +55 75 9162-4215: True.
+[7:13 PM, 13/05/2021] Erick Lemos: Porém @Benito Marculano Ribeiro existe um pesquisador da red Hat, ele quem escreve os princípais livros sobre python
+[7:13 PM, 13/05/2021] Erick Lemos: Recomendo buscar os blogs dele
+[7:13 PM, 13/05/2021] +55 75 9162-4215: Mas mandei pro cara o conteúdo do vídeo escrito.
+[7:13 PM, 13/05/2021] Erick Lemos: Não lembro o nome dele agora
+[7:14 PM, 13/05/2021] +55 75 9162-4215: É extremamente chato e trabalhoso escrever Assembly diretamente, além de ser bem ineficiente hoje em dia, tanto porque precisamos escrever muito código pra fazer uma aplicação inteira e porque a performance não vai ser melhor e vou explicar porque a seguir. Mas pior, o código que escrevemos é totalmente dependente da CPU que estamos usando. Programar Assembly de Intel x86 ou PowerPC ou ARM exigem instruções diferentes. Por isso temos linguagens como C. Um “compiladores” traduz o código como escrito em C e realiza diversas otimizações antes de terminar de traduzir em instruções binárias. Mas mais importante, podemos usar o mesmo código C com diferentes compiladores pra gerar as instruções de um Intel x86 ou ARM sem mudar o código C.
+
+Uma linguagem como C cria…
+[7:14 PM, 13/05/2021] +55 75 9162-4215: Como eu disse antes, um interpretador originalmente foi feito pra iniciar rápido e terminar rápido. No episódio anterior eu comecei a falar sobre servidores web. Todo sistema operacional lida com processos. Toda vez que você executa uma aplicação, seja o executável nativo compilado em C ou os interpretadores que citei antes que também são feitos em C ou C++, o trabalho do sistema operacional é carregar, alocar memória e criar um processo em execução. Em ambientes UNIX ou principalmente Linux criar processos é uma coisa relativamente barata, ordens de grandeza se comparar com MacOS ou Windows. Em Windows criar processos envolve mais peso ou o que chamamos de overhead, não é uma coisa barata e nem é porque ele é pior mas porque tem requerimentos diferentes. Pe…
+[7:15 PM, 13/05/2021] +55 75 9162-4215: Pronto
+[7:15 PM, 13/05/2021] +55 75 9162-4215: Espero que sirva
+[7:15 PM, 13/05/2021] +55 75 9162-4215: @Benito Marculano Ribeiro
+[7:15 PM, 13/05/2021] Benito Marculano Ribeiro: Calma que estou lendo tudo agora
+[7:15 PM, 13/05/2021] +55 75 9162-4215: 😂
+[7:15 PM, 13/05/2021] +55 75 9162-4215: Vou te mandar todos os links no telegram.
+[7:15 PM, 13/05/2021] +55 75 9162-4215: Da série dele.
+[7:15 PM, 13/05/2021] Benito Marculano Ribeiro: Blz
+[7:15 PM, 13/05/2021] +55 75 9162-4215: Dá ctrl+f e pesquisa por compilador e interpretador.
+[7:16 PM, 13/05/2021] Benito Marculano Ribeiro: Espero que eu consiga terminar isso até o dia 20
+[7:17 PM, 13/05/2021] +55 75 9162-4215: Essa parte aí vc consegue terminar ainda hoje.
+[7:17 PM, 13/05/2021] +55 75 9162-4215: Tudo bem resumido lá no AkitaOnRails.
+[7:18 PM, 13/05/2021] Benito Marculano Ribeiro: Tudo o que falamos?
+[7:18 PM, 13/05/2021] +55 75 9162-4215: Mais ou menos.
+[7:18 PM, 13/05/2021] +55 75 9162-4215: Ele fala genericamente sobre compilador e interpretador.
+[7:19 PM, 13/05/2021] +55 75 9162-4215: Abrange o conceito.
+[7:19 PM, 13/05/2021] +55 75 9162-4215: Junta isso ao livro que te mandei, gg.
+[7:19 PM, 13/05/2021] +55 75 9162-4215: Pq o livro foca no python em si.
+[7:19 PM, 13/05/2021] Benito Marculano Ribeiro: Nota, livro do Rick + akkita
+[7:19 PM, 13/05/2021] +55 75 9162-4215: Kkkkkkkkkkkk
+[7:20 PM, 13/05/2021] Benito Marculano Ribeiro: Eita, anotei errado
+[7:20 PM, 13/05/2021] +55 75 9162-4215: Inclusive o livro que te mandei é o mais completo que já vi de python.
+[7:20 PM, 13/05/2021] +55 75 9162-4215: O Akita ele sempre pega dessa editora.
+[7:20 PM, 13/05/2021] +55 75 9162-4215: Kakakakakkakakak
+[7:21 PM, 13/05/2021] Erick Lemos: @Benito Marculano Ribeiro uma entrevista com o cara que formulou o código pythonico
+[7:21 PM, 13/05/2021] Erick Lemos: Um dos maiores especialistas na área
+[7:21 PM, 13/05/2021] Erick Lemos: https://www.google.com/amp/s/www.infoworld.com/article/2619428/van-rossum--python-is-not-too-slow.amp.html
+[7:22 PM, 13/05/2021] Erick Lemos: Tem a opinião dele sobre críticos do python
+[7:23 PM, 13/05/2021] Benito Marculano Ribeiro: Link não abre aqui
+[7:23 PM, 13/05/2021] Erick Lemos: Tenta pela cll ou Pc
+[7:23 PM, 13/05/2021] Erick Lemos: Esse AMP da Google as vezes falha
+[7:24 PM, 13/05/2021] +55 75 9162-4215: O meu foi de boa pelo celular.
+[7:24 PM, 13/05/2021] +55 75 9162-4215: Éhhhh
+[7:25 PM, 13/05/2021] Benito Marculano Ribeiro: Foi pelo celular
+[7:25 PM, 13/05/2021] +55 75 9162-4215: Eu te mando o link sem o amp
+[7:25 PM, 13/05/2021] +55 75 9162-4215: 1min
+[7:25 PM, 13/05/2021] Benito Marculano Ribeiro: Blz
+[7:26 PM, 13/05/2021] +55 75 9162-4215: https://www.infoworld.com/article/2619428/van-rossum--python-is-not-too-slow.html
+[7:26 PM, 13/05/2021] +55 75 9162-4215: Esse abre no pc.
+[7:27 PM, 13/05/2021] +55 75 9162-4215: @Erick Lemos brabo de mais!
+[7:28 PM, 13/05/2021] Benito Marculano Ribeiro: Acho que é a net que está ruim
+[7:28 PM, 13/05/2021] +55 75 9162-4215: Ih, rapaz!
+[7:35 PM, 13/05/2021] Benito Marculano Ribeiro: Se você iniciar o Python com o arquivo python como argumento, poderá especificar -B:
+
+python -B somefile.py
+[7:39 PM, 13/05/2021] +55 75 9162-4215: Ahhhhhhhhhhh
+[7:39 PM, 13/05/2021] +55 75 9162-4215: Nunca tinha percebido isso.
+[7:39 PM, 13/05/2021] +55 75 9162-4215: Lol
+[7:39 PM, 13/05/2021] Benito Marculano Ribeiro: Misterios do C--
+[7:39 PM, 13/05/2021] +55 75 9162-4215: Então vai ser tudo meio que interpretado.
+[7:40 PM, 13/05/2021] +55 75 9162-4215: Seguindo tuda aquela regra que te contei.
+[7:40 PM, 13/05/2021] Benito Marculano Ribeiro: Então ficaria mais lento né?
+[7:40 PM, 13/05/2021] +55 75 9162-4215: Pre-compilamento na instalação, compilado para extensão C...
+[7:40 PM, 13/05/2021] +55 75 9162-4215: Em tese, sim.
+[7:40 PM, 13/05/2021] +55 75 9162-4215: Ele foi feito para não interpretar tudo de novo.
+[7:40 PM, 13/05/2021] Benito Marculano Ribeiro: E no caso não compilaria para C, né?
+[7:40 PM, 13/05/2021] +55 75 9162-4215: Mas vir, mastigado.
+[7:41 PM, 13/05/2021] +55 75 9162-4215: Faz um benchmark aí, para você ver.
+[7:41 PM, 13/05/2021] +55 75 9162-4215: Não, cara.
+O .pyc não é compilado em C, mas em bytecode.
+[7:42 PM, 13/05/2021] +55 75 9162-4215: O ruim, é que não deixam tão claro o que seria essa compilação do CPython.
+[7:42 PM, 13/05/2021] +55 75 9162-4215: Ou como seria.
+[7:42 PM, 13/05/2021] +55 75 9162-4215: Mas o .pyc não é compilado em C não.
+[7:50 PM, 13/05/2021] Benito Marculano Ribeiro: "CPython é o interpretador de código de bytes padrão do Python, escrito em C." é verdade?
+[7:51 PM, 13/05/2021] +55 65 9959-2074: Gcc pega arquivo .C e transforma em .o que é o compilado. Desda  forma vc pode colocar este arquivo .o e executar em qualquer computador. 
+O gcc também pega código fonte de C(.c) e transforma em código assembly
+[7:51 PM, 13/05/2021] +55 75 9162-4215: Sim.
+[7:51 PM, 13/05/2021] +55 75 9162-4215: Até onde eu saiba, sim.
+[7:51 PM, 13/05/2021] Benito Marculano Ribeiro: Ou seja, é um script em C  que traduz o Python para Bytecode, isso?
+[7:52 PM, 13/05/2021] +55 75 9162-4215: https://docs.python.org/3/faq/design.html?highlight=cpython%20cpython#can-python-be-compiled-to-machine-code-c-or-some-other-language
+[7:52 PM, 13/05/2021] +55 75 9162-4215: Dá uma olhada nesse faq.
+[7:52 PM, 13/05/2021] +55 75 9162-4215: Foi mal, estou sem pc por agora, meu pai tá usando
+[7:52 PM, 13/05/2021] +55 75 9162-4215: Kkkkkkkkkkkkkk
+[7:53 PM, 13/05/2021] +55 75 9162-4215: Não sei te dizer, mas acredito que sim.
+Não seria um script em C, porque ele já foi compilado. O correto seria o termo executável.
+[7:53 PM, 13/05/2021] Benito Marculano Ribeiro: Acho que estou começando a encaixar as pessas
+[7:53 PM, 13/05/2021] Benito Marculano Ribeiro: peças
+[7:54 PM, 13/05/2021] +55 75 9162-4215: Não há esse script nas paths, quem faz isso é o CPython, que é um exe.
+[7:54 PM, 13/05/2021] +55 75 9162-4215: Boa! É meio confuso mesmo.
+[7:54 PM, 13/05/2021] +55 65 9959-2074: gcc -o meu_script_c.c -m compilado resulta em compilado.o
+gcc -S meu_script_c.c -m compilado  resulta em compilado.S
+[7:54 PM, 13/05/2021] +55 65 9959-2074: É mais ou menos isso
+[7:54 PM, 13/05/2021] +55 75 9162-4215: Eu só sei pq estudei por uns 6 meses essa linguagem.
+[7:55 PM, 13/05/2021] +55 65 9959-2074: Assembly vc tem várias versões dependendo da arquitetura do processador
+[7:55 PM, 13/05/2021] Benito Marculano Ribeiro: Mas isso não quer dizer que esse exe não tenha sido escrito em C
+[7:55 PM, 13/05/2021] +55 75 9162-4215: Isso. E muito provavelmente tenha sido escrito em C mesmo.
+[7:56 PM, 13/05/2021] +55 75 9162-4215: Eu ressaltei para você não perder ponto no TCC por isso.
+[7:56 PM, 13/05/2021] Benito Marculano Ribeiro: Vlw
+[7:57 PM, 13/05/2021] +55 75 9162-4215: Pq caso não tenha ficado tão claro, vc podia acabar botando isso.
+Se o teu professor não souber tanto de python, pode ser até que passe despercebido, mas melhor fazer mais certo possível.
+[7:58 PM, 13/05/2021] +55 75 9162-4215: Faculdade pelo que dizem, você precisa de 110% de precisão. Kakakakakka
+[7:58 PM, 13/05/2021] Benito Marculano Ribeiro: É por ai
+[7:59 PM, 13/05/2021] Benito Marculano Ribeiro: Acho que vou encerrar por hoje, pq não estou conseguindo absorver mais nada
+[7:59 PM, 13/05/2021] +55 75 9162-4215: Normal.
+Descansa e tenta amanhã.
+[7:59 PM, 13/05/2021] +55 75 9162-4215: Anota tudo aí, salva numa pasta.
+[7:59 PM, 13/05/2021] +55 75 9162-4215: Num chat...
+[7:59 PM, 13/05/2021] +55 75 9162-4215: Para não perder, e talz.
