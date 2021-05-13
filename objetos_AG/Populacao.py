@@ -286,7 +286,7 @@ class Populacao:
             self.populacao.append(cromossomo)
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
-                print("Novo Cromossomo:\n"+str(cromossomo.toString())+"\n")
+                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
         #print(len(self.populacao))
         mergeSort(self.populacao)
         del(self.populacao[tam::])

@@ -51,7 +51,7 @@ populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
 top1 = populacao.getTop1()
 populacao.cruzamentoMultiPontos(frete)
 # Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-while (time()-tic) < tempo:
+while True:
     t1 = time()
     populacao.insercao2(pedido, frete, tam, top1, aux)
     if(top1.getFitness() > populacao.getTop1().getFitness()):
@@ -63,7 +63,7 @@ while (time()-tic) < tempo:
             filho.mutacao(frete)
             if(filho.getFitness() < top1.getFitness()):
                 top1 = filho
-                print("Filho: "+str(filho.toString()) +
+                print("Filho: "+str(filho.getFitness()) +
                       "Cont: "+str(cont))
                 cont = 0
             '''
@@ -75,9 +75,10 @@ while (time()-tic) < tempo:
             '''
     cont += 1
     geracoes += 1
-    t2 = time()
-    print("Geração: "+str(geracoes)+" Cont: "+str(cont) +
-          " Tempo de processamento: " + str(t2-t1)+"s.")
+    #t2 = time()
+    toc = time()
+    print("Top1: "+str(top1.getFitness()) + " Geração: "+str(geracoes)+" Cont: "+str(cont) +
+          " Tempo de processamento: " + str(toc-tic)+"s.")
 toc = time()
 # Top1 Global
 print("Top1 Global:\n"+str(top1.toString()) + "\n")
