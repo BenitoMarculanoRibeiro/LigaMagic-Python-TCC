@@ -30,7 +30,7 @@ geracoes = 0
 # cont conta as falhas
 cont = 0
 # tam é o tamnho da população
-tam = 400
+tam = 1000
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
 falhas = 100
 # tempo é por quanto tempo quer rodar o programa em segundos
@@ -49,16 +49,21 @@ top1.avaliacao(frete)
 # Iniciando a população
 populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
 top1 = populacao.getTop1()
-populacao.cruzamentoMultiPontos(frete)
 # Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-while True:
+for i in range(100):
     t1 = time()
-    populacao.insercao2(pedido, frete, tam, top1, aux)
+    populacao.selecao(tam)
+    print(len(populacao.getPopulacao()))
+    populacao.cruzamento(tam, pedido, frete)
+    populacao.mutacao(frete, chanceMutacao)
+    populacao.insercao(pedido, frete, tam, aux)
+    print(len(populacao.getPopulacao()))
     if(top1.getFitness() > populacao.getTop1().getFitness()):
         cont = 0
         top1 = populacao.getTop1()
+        '''
     for analise in populacao.getPais():
-        if(random.randint(0, 100) < chanceMutacao):
+            if(random.randint(0, 100) < chanceMutacao):
             filho = copy.deepcopy(analise)
             filho.mutacao(frete)
             if(filho.getFitness() < top1.getFitness()):
@@ -66,7 +71,6 @@ while True:
                 print("Filho: "+str(filho.getFitness()) +
                       "Cont: "+str(cont))
                 cont = 0
-            '''
             if(populacao.getTop1().getFitness() < top1.getFitness()):
                 top1 = populacao.getTop1()
                 print("Filho:\n"+str(filho.toString()) +

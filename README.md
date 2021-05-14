@@ -104,3 +104,12 @@ O Python usa a tecnica JIT (Just-in-Time), ela faz a compilação em tempo de ex
 
 
 O principal problema para programar em python é a sua lentidão para rodar seus scripts.
+
+# Anotações 
+
+CPython é o interpretador padrão do python
+https://docs.python.org/pt-br/3/glossary.html#term-cpython
+
+Como evitar arquivos .pyc? Basta usar a opção -B ao iniciar o programa usando o interpretador Python.
+Exemplo: python -B main.py
+https://qastack.com.br/programming/154443/how-to-avoid-pyc-files

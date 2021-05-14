@@ -81,13 +81,13 @@ class Cromossomo:
             if(int(loja) > 0):
                 gene.setLoja(posLoja)
                 gene.getCarta().menos1(posLoja)
-                print("Mutou")
+                self.avaliacao(frete)
+                #print("Mutou")
             # else:
                 # mutação falhou por falta de carta na loja
         # else:
             # mutação não vai acontecer por falta de chance
-                self.avaliacao(frete)
-
+                
     def toString(self):
         texto = ""
         for i in self.cromossomo:

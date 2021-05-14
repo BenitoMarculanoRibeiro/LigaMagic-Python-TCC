@@ -1,6 +1,6 @@
 from .Cromossomo import Cromossomo as C
 from threading import Thread
-from random import randint, shuffle
+from random import randint, shuffle, sample
 import copy
 
 
@@ -9,8 +9,6 @@ class Populacao:
 
     def __init__(self, pedido, frete, tam, top1, aux):
         self.populacao = []
-        self.pais = [C(), C()]
-        self.filhos = []
         self.top1 = top1
         for id in range(tam):
             cromossomo = C()
@@ -23,67 +21,92 @@ class Populacao:
                 self.top1 = cromossomo
                 print("novo Cromossomo: "+str(cromossomo.getFitness()))
 
-        copiaPopulacao = copy.deepcopy(self.populacao)
-        self.setPais(aleatorio(copiaPopulacao), 0)
-        self.setPais(aleatorio(copiaPopulacao), 1)
-        '''
-        num = 20
-        tam
-        div = int(tam/num)
-        resto = int(tam % num)
-        for id in range(num):
-            if(id == (num-1)):
-                t = Thread(target=self.thr(div+resto, pedido, frete, aux))
-                t.start()
-                t.join()
-            else:
-                t = Thread(target=self.thr(div, pedido, frete, aux))
-                t.start()
-                t.join()
-        # print(len(self.populacao))
-        copiaPopulacao = copy.deepcopy(self.populacao)
-        mergeSort(self.populacao)
-        if(self.populacao[0].getFitness() < top1.getFitness()):
-            self.top1 = self.populacao[0]
-            self.pais.append(roleta1(copiaPopulacao))
-            self.pais.append(roleta1(copiaPopulacao))
-        else:
-            self.top1 = top1
-            self.pais.append(roleta(copiaPopulacao, self.top1))
-            self.pais.append(roleta(copiaPopulacao, self.top1))
-        # print("Top1: " + str(self.top1.getFitness()) + "\nCromossomo: " + str(cromossomo.getFitness()))
-        '''
-
     def getTop1(self):
         return self.top1
 
     def getPopulacao(self):
         return self.populacao
 
-    def getPais(self):
-        return self.pais
-
-    def getFilhos(self):
-        return self.filhos
-
     def setTop1(self, top1):
         self.top1 = top1
 
-    def setPais(self, pai, pos):
-        self.pais[pos] = pai
-
-    def setFilhos(self, filho, pos):
-        self.filhos[pos] = filho
-
     def setPopulacao(self, populacao):
         self.populacao = populacao
+
+    def cruzamentoMonoPonto(self, pai, mae, pedido, frete):
+        ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
+        status = 0
+        filho1 = C()
+        filho2 = C()
+        for pos in range(len(mae.getCromossomo())):
+            if(int(pai.getCromossomo()[pos].getCarta().getId()) == int(ponto)):
+                status = 1
+            if(status == 0):
+                filho1.getCromossomo().append(pai.getCromossomo()[pos])
+                filho2.getCromossomo().append(mae.getCromossomo()[pos])
+            else:
+                # print(filho1.toString())
+                filho1.getCromossomo().append(mae.getCromossomo()[pos])
+                filho2.getCromossomo().append(pai.getCromossomo()[pos])
+        filho1.avaliacao(frete)
+        filho2.avaliacao(frete)
+        if(self.top1.getFitness() > filho1.getFitness()):
+            self.top1 = filho1
+            print("Filho1 " + str(filho1.getFitness())+" é melhor que o Top1")
+        if(self.top1.getFitness() > filho2.getFitness()):
+            self.top1 = filho2
+            print("Filho2 " + str(filho2.getFitness())+" é melhor que o Top1")
+        self.populacao.append(filho1)
+        self.populacao.append(filho2)
+
+    def cruzamento(self, tam, pedido, frete):
+        copiaPopulacao = copy.deepcopy(self.populacao)
+        for id in range(int(tam/2)):
+            self.cruzamentoMonoPonto(
+                aleatorio(copiaPopulacao), aleatorio(copiaPopulacao), pedido, frete)
+
+    def insercao(self, pedido, frete, tam, aux):
+        # print(len(self.populacao))
+        for id in range(tam):
+            cromossomo = C()
+            cromossomo.preencherCromossomo(pedido, frete, aux)
+            self.populacao.append(cromossomo)
+            if(cromossomo.getFitness() < self.top1.getFitness()):
+                self.top1 = cromossomo
+                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
+        # print(len(self.populacao))
+
+    def mutacao(self, frete, chanceMutacao):
+        for cromossomo in self.populacao:
+            if(randint(0, 100) < chanceMutacao):
+                mutante = copy.deepcopy(cromossomo)
+                mutante.mutacao(frete)
+                self.populacao.append(mutante)
+                if(mutante.getFitness() < self.top1.getFitness()):
+                    self.top1 = mutante
+                    print("Mutante: "+str(mutante.getFitness()))
+
+    def selecao(self, tam):
+        self.populacao.sort(key=lambda x: x.getFitness())
+        del(self.populacao[tam::])
+        # print(len(self.populacao))
+        #copiaPopulacao = copy.deepcopy(self.populacao)
+        #l = sample(range(0, len(self.populacao)), 2)
+        #self.setPais(copy.deepcopy(self.populacao[l[0]]), 0)
+        #self.setPais(copy.deepcopy(self.populacao[l[1]]), 1)
 
     def toStringValor(self):
         texto = ""
         for item in self.populacao:
             texto += "Fitness: R$" + str(item.getFitness()) + ".\n"
         return texto
-    '''
+
+
+def aleatorio(lista):
+    return lista.pop(randint(0, len(lista)-1))
+
+
+'''
     def thr(self, tam, pedido, frete, aux):
         for i in range(tam):
             cromossomo = C()
@@ -176,8 +199,7 @@ class Populacao:
                 self.top1 = i
                 # print("Filho " + str(i.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho)
-    '''
-
+        
     def cruzamentoMultiPontos(self, frete):
         pos = 0
         status = randint(0, 1)
@@ -224,35 +246,9 @@ class Populacao:
                 self.top1 = i
                 # print("Filho " + str(i.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho)
-
-    def cruzamentoMonoPonto(self, pai, mae, pedido, frete):
-        ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
-        status = 0
-        filho1 = C()
-        filho2 = C()
-        for pos in range(len(mae.getCromossomo())):
-            if(int(pai.getCromossomo()[pos].getCarta().getId()) == int(ponto)):
-                status = 1
-            if(status == 0):
-                filho1.getCromossomo().append(pai.getCromossomo()[pos])
-                filho2.getCromossomo().append(mae.getCromossomo()[pos])
-            else:
-                # print(filho1.toString())
-                filho1.getCromossomo().append(mae.getCromossomo()[pos])
-                filho2.getCromossomo().append(pai.getCromossomo()[pos])
-        filho1.avaliacao(frete)
-        filho2.avaliacao(frete)
-        if(self.top1.getFitness() > filho1.getFitness()):
-            self.top1 = filho1
-            print("Filho1 " + str(filho1.getFitness())+" é melhor que o Top1")
-        if(self.top1.getFitness() > filho2.getFitness()):
-            self.top1 = filho2
-            print("Filho2 " + str(filho2.getFitness())+" é melhor que o Top1")
-        self.populacao.append(filho1)
-        self.populacao.append(filho2)
-
-    def insercao(self, pedido, frete, tam, top1, aux, taxa):
-        copiaPopulacao = copy.deepcopy(self.populacao)
+        
+        def insercao(self, pedido, frete, tam, top1, aux, taxa):
+            copiaPopulacao = copy.deepcopy(self.populacao)
         self.populacao = []
         self.top1 = top1
         repro = int(tam*taxa)
@@ -260,7 +256,7 @@ class Populacao:
         for id in range(repro):
             self.cruzamentoMonoPonto(
                 aleatorio(copiaPopulacao), aleatorio(copiaPopulacao), pedido, frete)
-        #print(len(self.populacao))
+        # print(len(self.populacao))
         for id in range(inser):
             cromossomo = C()
             cromossomo.preencherCromossomo(pedido, frete, aux)
@@ -268,18 +264,21 @@ class Populacao:
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
                 print("Novo Cromossomo: "+str(cromossomo.toString()))
+        #copiaPopulacao = copy.deepcopy(self.populacao)
+        self.populacao.sort(key=lambda x: x.getFitness())
+        # print(len(self.populacao))
+        #copiaPopulacao = copy.deepcopy(self.populacao)
+        #l = sample(range(0, len(self.populacao)), 2)
+        #self.setPais(copy.deepcopy(self.populacao[l[0]]), 0)
+        #self.setPais(copy.deepcopy(self.populacao[l[1]]), 1)
+
+        def insercao3(self, pedido, frete, tam, top1, aux):
+            self.top1 = top1
         copiaPopulacao = copy.deepcopy(self.populacao)
-        mergeSort(self.populacao)
-        self.setPais(roleta(copiaPopulacao), 0)
-        self.setPais(roleta(copiaPopulacao), 1)
-        
-    def insercao2(self, pedido, frete, tam, top1, aux):
-        copiaPopulacao = copy.deepcopy(self.populacao)
-        self.top1 = top1
         for id in range(int(tam/2)):
             self.cruzamentoMonoPonto(
                 aleatorio(copiaPopulacao), aleatorio(copiaPopulacao), pedido, frete)
-        #print(len(self.populacao))
+            # print(len(self.populacao))
         for id in range(tam):
             cromossomo = C()
             cromossomo.preencherCromossomo(pedido, frete, aux)
@@ -287,38 +286,18 @@ class Populacao:
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
                 print("Novo Cromossomo: "+str(cromossomo.getFitness()))
-        #print(len(self.populacao))
-        mergeSort(self.populacao)
-        del(self.populacao[tam::])
-        #print(len(self.populacao))
-        copiaPopulacao = copy.deepcopy(self.populacao)
-        self.setPais(roleta(copiaPopulacao), 0)
-        self.setPais(roleta(copiaPopulacao), 1)
-    
-    def insercao3(self, pedido, frete, tam, top1, aux):
-        self.top1 = top1
-        copiaPopulacao = copy.deepcopy(self.populacao)
-        for id in range(int(tam/2)):
-            self.cruzamentoMonoPonto(
-                aleatorio(copiaPopulacao), aleatorio(copiaPopulacao), pedido, frete)
-            #print(len(self.populacao))
-        for id in range(tam):
-            cromossomo = C()
-            cromossomo.preencherCromossomo(pedido, frete, aux)
-            self.populacao.append(cromossomo)
-            if(cromossomo.getFitness() < self.top1.getFitness()):
-                self.top1 = cromossomo
-                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
-        #print(len(self.populacao))
+        # print(len(self.populacao))
         print(self.toStringValor())
         print(len(self.populacao))
-        mergeSort(self.populacao)
+        print("ajghb")
+        self.populacao.sort(key=lambda x: x.getFitness())
         print(len(self.populacao))
         print(self.toStringValor())
         del(self.populacao[tam::])
         print(len(self.populacao))
         print(self.toStringValor())
-    '''
+
+
     def insercao(self, pedido, frete, tam, top1, aux):
         self.populacao = []
         self.top1 = top1
@@ -373,10 +352,7 @@ class Populacao:
         shuffle(vetor)
         result = vetor.pop(0)
         return result
-
-    '''
-
-
+        
 def mergeSort(alist):
     if len(alist) > 1:
         mid = len(alist)//2
@@ -404,14 +380,6 @@ def mergeSort(alist):
             j = j+1
             k = k+1
 
-
-def aleatorio(lista):
-    return lista.pop(randint(0, len(lista)-1))
-
-
-
-
-
 def roleta(lista):
     vetor = []
     cont = len(lista)
@@ -421,3 +389,4 @@ def roleta(lista):
         cont -= 1
     shuffle(vetor)
     return vetor.pop(0)
+'''

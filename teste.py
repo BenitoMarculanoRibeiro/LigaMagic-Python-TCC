@@ -29,7 +29,7 @@ geracoes = 0
 # cont conta as falhas
 cont = 0
 # tam é o tamnho da população
-tam = 50
+tam = 10
 # falhas são quantas falhas podem ocorrer sem que seja adquirido algum cromossomo mais barato
 falhas = 100
 # tempo é por quanto tempo quer rodar o programa em segundos
