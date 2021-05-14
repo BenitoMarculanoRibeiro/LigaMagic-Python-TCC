@@ -3,6 +3,7 @@ from .item import Item
 from .carta import Carta
 from .frete import Frete
 
+
 def lerArquivo(caminho):
     vet = []
     for line in open(caminho, 'r'):
@@ -52,6 +53,7 @@ def geraPedido(vetPedido, vetPrecos, vetQtds):
         pedidoStatus.setQtd(id[1])
         pedido.append(pedidoStatus)
     return pedido
+
 
 def geraVetorFrete(vetFrete):
     vetFrete[1].pop(0)

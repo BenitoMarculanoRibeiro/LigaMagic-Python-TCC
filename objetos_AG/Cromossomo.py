@@ -1,6 +1,6 @@
 from .gene import Gene
-import random
-import copy
+from random import randint, sample
+from copy import deepcopy
 
 
 class Cromossomo:
@@ -20,23 +20,19 @@ class Cromossomo:
     def setFitness(self, fitness):
         self.fitness = fitness
 
-    def preencherCromossomo(self, pedido, frete, aux):
-        copiaPedido = copy.deepcopy(pedido)
+    def preencherCromossomo(self, pedido, frete):
+        copiaPedido = deepcopy(pedido)
         for item in copiaPedido:
-            random.shuffle(aux)
+            aux = sample(range(0, len(item.getCarta().getQtd())), len(item.getCarta().getQtd()))
             for j in range(int(item.getQtd())):
                 for i in aux:
                     try:
                         if(int(item.getCarta().getQtd()[i]) > 0):
-                            #print("Id Carta: "+str(item.getCarta().getId()) + " Posicao " + str(i) + " qtd: " + str(loja))
                             gene = Gene()
                             gene.setCarta(item.getCarta())
                             gene.setLoja(i)
-                            #print("Qtd Antes: " + str(item.getCarta().getQtd()[i]))
                             item.getCarta().menos1(i)
-                            #print("Qtd Depois: " + str(item.getCarta().getQtd()[i])+"\n")
                             self.cromossomo.append(gene)
-                            # print(gene.toString())
                             break
                     except:
                         print("Erro preencherCromossomo")
@@ -51,10 +47,8 @@ class Cromossomo:
         fitness = 0
         vetLoja = []
         for gen in self.cromossomo:
-            #print("Carta" +str(gen.getCarta().getNome())+"Preco Carta: " + str(float(gen.getCarta().getPrecos()[gen.getLoja()])))
             fitness += float(gen.getCarta().getPrecos()[gen.getLoja()])
             if gen.getLoja() not in vetLoja:
-                #print("Preco Frete: " + str(float(frete.getFrete(gen.getLoja()).getFrete()))+ " Loja: " + str(gen.getLoja()))
                 fitness += float(frete[gen.getLoja()].getFrete())
                 vetLoja.append(gen.getLoja())
         self.fitness = round(fitness, 2)
@@ -63,31 +57,28 @@ class Cromossomo:
         fitness = 0
         vetLoja = []
         for gen in self.cromossomo:
-            #print("Carta" +str(gen.getCarta().getNome())+"Preco Carta: " + str(float(gen.getCarta().getPrecos()[gen.getLoja()])))
             fitness += float(gen.getCarta().getPrecos()[gen.getLoja()])
             if gen.getLoja() not in vetLoja:
-                #print("Preco Frete: " + str(float(frete.getFrete(gen.getLoja()).getFrete()))+ " Loja: " + str(gen.getLoja()))
                 fitness += float(frete[gen.getLoja()].getFrete())
                 vetLoja.append(gen.getLoja())
         return round(fitness, 2)
 
     def mutacao(self, frete):
-        if(len(self.cromossomo)>0):
-            #print(len(self.cromossomo))
-            gene = self.cromossomo[random.randint(0, len(self.cromossomo)-1)]
+        if(len(self.cromossomo) > 0):
+            gene = self.cromossomo[randint(0, len(self.cromossomo)-1)]
             gene.getCarta().mais1(gene.getLoja())
-            posLoja = random.randint(0, len(gene.getCarta().getQtd())-1)
+            posLoja = randint(0, len(gene.getCarta().getQtd())-1)
             loja = gene.getCarta().getQtd()[posLoja]
             if(int(loja) > 0):
                 gene.setLoja(posLoja)
                 gene.getCarta().menos1(posLoja)
                 self.avaliacao(frete)
-                #print("Mutou")
+                # print("Mutou")
             # else:
                 # mutação falhou por falta de carta na loja
         # else:
             # mutação não vai acontecer por falta de chance
-                
+
     def toString(self):
         texto = ""
         for i in self.cromossomo:
