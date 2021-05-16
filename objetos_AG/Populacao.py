@@ -14,9 +14,6 @@ class Populacao:
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
                 print("Novo Cromossomo: "+str(cromossomo.getFitness()))
-            if(cromossomo.getFitness() < self.top1.getFitness()):
-                self.top1 = cromossomo
-                print("novo Cromossomo: "+str(cromossomo.getFitness()))
 
     def getTop1(self):
         return self.top1
@@ -31,19 +28,17 @@ class Populacao:
         self.populacao = populacao
 
     def cruzamentoMonoPonto(self, pai, mae, pedido, frete):
-        ponto = pedido[randint(1, len(pedido)-2)].getCarta().getId()
-        status = 0
+        ponto = pedido[randint(0, len(pedido))-1].getCarta().getId()
         filho1 = C()
         filho2 = C()
+        pos = 0
         for pos in range(len(mae.getCromossomo())):
             if(int(pai.getCromossomo()[pos].getCarta().getId()) == int(ponto)):
-                status = 1
-            if(status == 0):
-                filho1.getCromossomo().append(pai.getCromossomo()[pos])
-                filho2.getCromossomo().append(mae.getCromossomo()[pos])
-            else:
-                filho1.getCromossomo().append(mae.getCromossomo()[pos])
-                filho2.getCromossomo().append(pai.getCromossomo()[pos])
+                break
+        filho1.setCromossomo(pai.getCromossomo()[
+                             0:pos] + mae.getCromossomo()[pos::])
+        filho2.setCromossomo(mae.getCromossomo()[
+                             0:pos] + pai.getCromossomo()[pos::])
         filho1.avaliacao(frete)
         filho2.avaliacao(frete)
         if(self.top1.getFitness() > filho1.getFitness()):

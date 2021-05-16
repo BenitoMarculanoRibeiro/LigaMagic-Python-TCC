@@ -107,8 +107,21 @@ O principal problema para programar em python é a sua lentidão para rodar seus
 
 # Anotações 
 
+Funcionamento do Python
+Primeiro escrevemos o script (codigo fonte .py)
+Depois executamos o script por um interpretador python, onde é compilado para o chamado "código de byte" (arquivo .pyc) e em seguida roteado para uma "maquina virtual Python" (PVM)
+https://prnt.sc/12xhz0g
+Vale ressaltar que os arquivos pré-compilados .pyc não são código binário de maquina, o código de byte é uma representação especifica do Python.
+O motivo do código em Python ser tão lento é por causa do loop PVM, ele tem que interpretar o código em byte, e as instruções do código de byte requerem mais trabalho do que as instruções da CPU.
+Livro: Learning Python, FOURTH EDITION, by Mark Lutz
+
+
+
 CPython é o interpretador padrão do python
 https://docs.python.org/pt-br/3/glossary.html#term-cpython
+
+
+https://qastack.com.br/software/24558/is-python-interpreted-or-compiled
 
 Como evitar arquivos .pyc? Basta usar a opção -B ao iniciar o programa usando o interpretador Python.
 Exemplo: python -B main.py

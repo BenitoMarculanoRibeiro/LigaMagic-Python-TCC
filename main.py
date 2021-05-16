@@ -1,26 +1,26 @@
 # coding: utf-8
-from objetos_AG import control, Cromossomo, Populacao
+from objetos_AG import Control as c, Cromossomo, Populacao
 from time import time
 # Recebendo dados dos arquivos
-arqFretes = control.lerArquivo("arquivos/ligamagicFrete.txt")
-arqFretesTeste = control.lerArquivo("arquivos/ligamagicFreteTeste.txt")
-arqPedidoTeste = control.lerArquivo("arquivos/pedidoteste.txt")
-arqPedido1 = control.lerArquivo("arquivos/ligamagicPedido1.txt")
-arqPedido2 = control.lerArquivo("arquivos/ligamagicPedido2.txt")
-arqPedido3 = control.lerArquivo("arquivos/ligamagicPedido3.txt")
-arqPedido4 = control.lerArquivo("arquivos/ligamagicPedido4.txt")
-arqPreco = control.lerArquivo("arquivos/ligamagicPreco.txt")
-arqQtd = control.lerArquivo("arquivos/ligamagicQtd.txt")
-arqPrecoTeste = control.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
-arqQtdTeste = control.lerArquivo("arquivos/ligamagicQtdTeste.txt")
+arqFretes = c.lerArquivo("arquivos/ligamagicFrete.txt")
+arqFretesTeste = c.lerArquivo("arquivos/ligamagicFreteTeste.txt")
+arqPedidoTeste = c.lerArquivo("arquivos/pedidoteste.txt")
+arqPedido1 = c.lerArquivo("arquivos/ligamagicPedido1.txt")
+arqPedido2 = c.lerArquivo("arquivos/ligamagicPedido2.txt")
+arqPedido3 = c.lerArquivo("arquivos/ligamagicPedido3.txt")
+arqPedido4 = c.lerArquivo("arquivos/ligamagicPedido4.txt")
+arqPreco = c.lerArquivo("arquivos/ligamagicPreco.txt")
+arqQtd = c.lerArquivo("arquivos/ligamagicQtd.txt")
+arqPrecoTeste = c.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
+arqQtdTeste = c.lerArquivo("arquivos/ligamagicQtdTeste.txt")
 # frete é uma variavel que com os valores de frete por loja
-frete = control.geraVetorFrete(arqFretes)
-#frete = control.geraVetorFrete(arqFretesTeste)
+frete = c.geraVetorFrete(arqFretes)
+#frete = c.geraVetorFrete(arqFretesTeste)
 # pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
-pedido = control.geraPedido(arqPedido1, arqPreco, arqQtd)
+pedido = c.geraPedido(arqPedido1, arqPreco, arqQtd)
 arqPreco.clear()
 arqQtd.clear()
-#pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
+#pedido = c.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
 # geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
 # cont conta as falhas
@@ -44,20 +44,21 @@ top1.avaliacao(frete)
 populacao = Populacao.Populacao(pedido, frete, tam, top1)
 top1 = populacao.getTop1()
 # Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-for i in range(100):
+while cont <= falhas:
     t1 = time()
+    #Etapa
     populacao.selecao(tam)
     populacao.cruzamento(tam, pedido, frete)
     populacao.mutacao(frete, chanceMutacao)
     populacao.insercao(pedido, frete, tam)
     if(top1.getFitness() > populacao.getTop1().getFitness()):
-        cont = 0
+        #cont = 0
         top1 = populacao.getTop1()
     cont += 1
     geracoes += 1
     #t2 = time()
     toc = time()
-    print("Top1: "+str(top1.getFitness()) + " Geração: "+str(geracoes)+" Cont: "+str(cont) +
+    print("Top1: "+str(populacao.getTop1().getFitness()) + " Geração: "+str(geracoes)+" Cont: "+str(cont) +
           " Tempo de processamento: " + str(toc-tic)+"s.")
 toc = time()
 # Top1 Global

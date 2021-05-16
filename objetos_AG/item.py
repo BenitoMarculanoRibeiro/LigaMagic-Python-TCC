@@ -1,6 +1,3 @@
-from .carta import Carta
-
-
 class Item:
 
     def __init__(self):

@@ -1,4 +1,4 @@
-from .gene import Gene
+from .Gene import Gene
 from random import randint, sample
 from copy import deepcopy
 
@@ -23,7 +23,8 @@ class Cromossomo:
     def preencherCromossomo(self, pedido, frete):
         copiaPedido = deepcopy(pedido)
         for item in copiaPedido:
-            aux = sample(range(0, len(item.getCarta().getQtd())), len(item.getCarta().getQtd()))
+            aux = sample(range(0, len(item.getCarta().getQtd())),
+                         len(item.getCarta().getQtd()))
             for j in range(int(item.getQtd())):
                 for i in aux:
                     try:

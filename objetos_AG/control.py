@@ -1,7 +1,7 @@
 # coding: utf-8
-from .item import Item
-from .carta import Carta
-from .frete import Frete
+from .Item import Item
+from .Carta import Carta
+from .Frete import Frete
 
 
 def lerArquivo(caminho):

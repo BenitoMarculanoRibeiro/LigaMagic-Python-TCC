@@ -1,29 +1,26 @@
-from objetos_AG import control, Cromossomo, Populacao
+# coding: utf-8
+from objetos_AG import c as c, Cromossomo, Populacao
 from time import time
-import random
-import copy
-import sys
-
 # Recebendo dados dos arquivos
-arqFretes = control.lerArquivo("arquivos/ligamagicFrete.txt")
-arqFretesTeste = control.lerArquivo("arquivos/ligamagicFreteTeste.txt")
-arqPedidoTeste = control.lerArquivo("arquivos/pedidoteste.txt")
-arqPedido1 = control.lerArquivo("arquivos/ligamagicPedido1.txt")
-arqPedido2 = control.lerArquivo("arquivos/ligamagicPedido2.txt")
-arqPedido3 = control.lerArquivo("arquivos/ligamagicPedido3.txt")
-arqPedido4 = control.lerArquivo("arquivos/ligamagicPedido4.txt")
-arqPreco = control.lerArquivo("arquivos/ligamagicPreco.txt")
-arqQtd = control.lerArquivo("arquivos/ligamagicQtd.txt")
-arqPrecoTeste = control.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
-arqQtdTeste = control.lerArquivo("arquivos/ligamagicQtdTeste.txt")
+arqFretes = c.lerArquivo("arquivos/ligamagicFrete.txt")
+arqFretesTeste = c.lerArquivo("arquivos/ligamagicFreteTeste.txt")
+arqPedidoTeste = c.lerArquivo("arquivos/pedidoteste.txt")
+arqPedido1 = c.lerArquivo("arquivos/ligamagicPedido1.txt")
+arqPedido2 = c.lerArquivo("arquivos/ligamagicPedido2.txt")
+arqPedido3 = c.lerArquivo("arquivos/ligamagicPedido3.txt")
+arqPedido4 = c.lerArquivo("arquivos/ligamagicPedido4.txt")
+arqPreco = c.lerArquivo("arquivos/ligamagicPreco.txt")
+arqQtd = c.lerArquivo("arquivos/ligamagicQtd.txt")
+arqPrecoTeste = c.lerArquivo("arquivos/ligamagicPrecoTeste.txt")
+arqQtdTeste = c.lerArquivo("arquivos/ligamagicQtdTeste.txt")
 # frete é uma variavel que com os valores de frete por loja
-frete = control.geraVetorFrete(arqFretes)
-#frete = control.geraVetorFrete(arqFretesTeste)
+frete = c.geraVetorFrete(arqFretes)
+#frete = c.geraVetorFrete(arqFretesTeste)
 # pedido contem um Id, nome, vetor de preço por loja e vetor de quantidade por loja
-pedido = control.geraPedido(arqPedido3, arqPreco, arqQtd)
+pedido = c.geraPedido(arqPedido3, arqPreco, arqQtd)
 arqPreco.clear()
 arqQtd.clear()
-#pedido = control.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
+#pedido = c.geraPedido(arqPedidoTeste, arqPrecoTeste, arqQtdTeste)
 # geracoes serve para saber quantas gerações de populações foram rodadas
 geracoes = 0
 # cont conta as falhas
@@ -34,50 +31,33 @@ tam = 1000
 falhas = 100
 # tempo é por quanto tempo quer rodar o programa em segundos
 tempo = 360
-# Chance de ocorrer mutação, é bom 1 = 1%
-chanceMutacao = 1
-aux = []
-for i in range(len(pedido[0].getCarta().getPrecos())):
-    aux.append(i)
+# Chance de ocorrer mutação, é bom 3 = 3%
+chanceMutacao = 3
 
 tic = time()
 # Iniciando Top1 Global
 top1 = Cromossomo.Cromossomo()
 # Iniciando o Top1 com o valor do maior int possivel para que ao ser analisado posteriormente seja excluido
-top1.preencherCromossomo(pedido, frete, aux)
+top1.preencherCromossomo(pedido, frete)
 top1.avaliacao(frete)
 # Iniciando a população
-populacao = Populacao.Populacao(pedido, frete, tam, top1, aux)
+populacao = Populacao.Populacao(pedido, frete, tam, top1)
 top1 = populacao.getTop1()
-populacao.cruzamentoMultiPontos(frete)
 # Esse while serve como condição de parada para o codigo, sendo assim ele continuará a ser executado até que a condição de parada seja satisfeita
-while True:
+while cont <= falhas:
     t1 = time()
-    populacao.insercao2(pedido, frete, tam, top1, aux)
+    populacao.selecao(tam)
+    populacao.cruzamento(tam, pedido, frete)
+    populacao.mutacao(frete, chanceMutacao)
+    populacao.insercao(pedido, frete, tam)
     if(top1.getFitness() > populacao.getTop1().getFitness()):
         cont = 0
         top1 = populacao.getTop1()
-    for analise in populacao.getPais():
-        if(random.randint(0, 100) < chanceMutacao):
-            filho = copy.deepcopy(analise)
-            filho.mutacao(frete)
-            if(filho.getFitness() < top1.getFitness()):
-                top1 = filho
-                print("Filho: "+str(filho.getFitness()) +
-                      "Cont: "+str(cont))
-                cont = 0
-            '''
-            if(populacao.getTop1().getFitness() < top1.getFitness()):
-                top1 = populacao.getTop1()
-                print("Filho:\n"+str(filho.toString()) +
-                      "Cont: "+str(cont)+"\n")
-                cont = 0
-            '''
     cont += 1
     geracoes += 1
     #t2 = time()
     toc = time()
-    print("Top1: "+str(top1.getFitness()) + " Geração: "+str(geracoes)+" Cont: "+str(cont) +
+    print("Top1: "+str(populacao.getTop1().getFitness()) + " Geração: "+str(geracoes)+" Cont: "+str(cont) +
           " Tempo de processamento: " + str(toc-tic)+"s.")
 toc = time()
 # Top1 Global
