@@ -60,25 +60,18 @@ Para fins de facilitar a confecção do algoritmo o frete será unico para cada 
 
 # Seleção
 
+Na seleção sera ordernado toda a população, e será removido os piores cromossomos até sobraro tamanho original da população.
 
-
-Na seleção selecionaremos dois individuos/cromossomos atravez de uma roleta aonde quanto melhores a avaliação mais "chances" ele terá de ser escolhido.
-
-Exemplo em uma população de tamanho 10 o individuo com a melhor avaliação tera 10 chances, o sengundo melhor terá 9 chances, ..., e o ultimo terá apenas 1 chance de ser escolhido.
-
-Isso garante que exista uma boa variabilidade genética. 
-
-Mas se por acaso apareça algum individuo com uma avaliação melhor do que todas as outras descobertas esse individuo terá seu cromossomo armazenado a parte como uma possivel resposta.
-
-Nota: para a seleção será usado o vetor de cromossomos da população e o top1 quando o top1 não for o melhor cromossomo da população. Caso sejam o mesmo será usado apenas o vetor de população.
+Por exemplo em uma população de tamanho original de 100 com um total de 360 cromossomos (que foram adicionados no decorrer do programa), será ordenado e depois removido os piores 260 cromossomos.
 
 # Cruzamento
 
-O cruzamento mais comum é o por ponto aletatorio. Aonde é escolhido uma posição aleatoria nos cromossomos dos pais de forma que os genes a esquerda (ou direita) da posição indicada é adicionado a um cromossomo filho junto da parte oposta do segundo cromossomo.
+O cruzamento mais comum é o por ponto aletatorio. Aonde é escolhido uma posição aleatoria nos cromossomos dos pais de forma que os genes a esquerda (ou direita) 
+sejam adicionados a dois novos cromossomos 
 
 Mas existe um problema ao fazer o cruzamento por ponto aletatorio nesse problema. O problema é que existe uma quantidade maxima de cartas por loja e o pedido pode pedir mais cartas do que uma loja tem, de forma que ao pedir 30 cartas x a loja y pode ter apenas 10 cartas x, sendo assim existe uma chance de que o cruzamento falhe. Ou seja, tem que ser validado a quantidade de cartas por loja para que o cromossomo não tenha mais cartas no pedido do que a loja realmente tenha. 
 
-Uma solução para isso seria fazer o cruzamento por carta, de forma que ao fazer o cruzamento seja criada uma lista com os nomes (ids) das cartas e seja escolhido uma posição aleatoria dessa lista, e seja adicionada a cromossomo filho as cartas escolhida a esquerda (ou o contrario) da lista de cartas do primeiro cromossomo e as cartas a direita da lista de cartas do segundo cromossomo.
+Uma solução para isso seria fazer o cruzamento por carta, de forma que ao fazer o cruzamento seja criada uma lista com os nomes (ids) das cartas e seja escolhido uma posição aleatoria dessa lista, e seja adicionada aos cromossomos filhos as cartas escolhida a esquerda (ou o contrario) da lista de cartas do primeiro cromossomo e as cartas a direita da lista de cartas do segundo cromossomo.
 
 # Mutação
 
@@ -88,7 +81,7 @@ Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de 
 
 # Inserção 
 
-A inserção vai servir para 
+A inserção vai servir para adicionar novos cromossomos aleatorios a população, de forma que sejam adicionados o tamnho original da população.
 
 # Programando em Python
 
@@ -110,7 +103,9 @@ O principal problema para programar em python é a sua lentidão para rodar seus
 Funcionamento do Python
 Primeiro escrevemos o script (codigo fonte .py)
 Depois executamos o script por um interpretador python, onde é compilado para o chamado "código de byte" (arquivo .pyc) e em seguida roteado para uma "maquina virtual Python" (PVM)
-https://prnt.sc/12xhz0g
+
+![alt text](https://prnt.sc/12xhz0g)
+
 Vale ressaltar que os arquivos pré-compilados .pyc não são código binário de maquina, o código de byte é uma representação especifica do Python.
 O motivo do código em Python ser tão lento é por causa do loop PVM, ele tem que interpretar o código em byte, e as instruções do código de byte requerem mais trabalho do que as instruções da CPU.
 Livro: Learning Python, FOURTH EDITION, by Mark Lutz
