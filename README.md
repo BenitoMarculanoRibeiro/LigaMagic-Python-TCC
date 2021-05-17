@@ -67,36 +67,53 @@ Por exemplo em uma população de tamanho original de 100 com um total de 360 cr
 # Cruzamento
 
 O cruzamento mais comum é o por ponto aletatorio. Aonde é escolhido uma posição aleatoria nos cromossomos dos pais de forma que os genes a esquerda (ou direita) 
-sejam adicionados a dois novos cromossomos 
+sejam adicionados a dois novos cromossomos, mas invertendo o as listas depois do ponto. Conforme ilustrado na imagem. 
+
+![alt text](https://github.com/BenitoMarculanoRibeiro/LigaMagic-Python-TCC/blob/main/imgs/img2.png?raw=true)
 
 Mas existe um problema ao fazer o cruzamento por ponto aletatorio nesse problema. O problema é que existe uma quantidade maxima de cartas por loja e o pedido pode pedir mais cartas do que uma loja tem, de forma que ao pedir 30 cartas x a loja y pode ter apenas 10 cartas x, sendo assim existe uma chance de que o cruzamento falhe. Ou seja, tem que ser validado a quantidade de cartas por loja para que o cromossomo não tenha mais cartas no pedido do que a loja realmente tenha. 
 
 Uma solução para isso seria fazer o cruzamento por carta, de forma que ao fazer o cruzamento seja criada uma lista com os nomes (ids) das cartas e seja escolhido uma posição aleatoria dessa lista, e seja adicionada aos cromossomos filhos as cartas escolhida a esquerda (ou o contrario) da lista de cartas do primeiro cromossomo e as cartas a direita da lista de cartas do segundo cromossomo.
 
+Será feito cruzamento com todas os cromossomos da população (vale mencionar que o cruzamento será feito em sequencia da seleção, ou seja o tamanho da população já foi reestabelecido para o tamanho original), escolhendo pares de cromossomos aleatoriamente pela população.
+
 # Mutação
 
 A mutação é quando mudamos o valor de algum gene de um cromossomo aleatoriamente. No caso seria mudar a loja onde comprariamos uma carta.
 
-Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de forma aleatoria. Sendo assim foi programado para a chance de mutação ser de 1%.
+Mas a mutação nem sempre acontece, dessa forma temos que faze-la acontecer de forma aleatoria. Sendo assim foi programado para a chance de mutação ser de 3%.
+
+E a mutação ainda pode falhar, já que podem escolher uma loja que não tem mais cartas. Nesse caso, a mutação é interrempida.
 
 # Inserção 
 
-A inserção vai servir para adicionar novos cromossomos aleatorios a população, de forma que sejam adicionados o tamnho original da população.
+A inserção vai servir para adicionar novos cromossomos aleatorios a população. Seram adicionados o tamanho original da população na população existente. 
 
 # Programando em Python
 
 O Python possui uma tipagem dinamica, o que faz com que objetos possam assumir varios tipos e serem mudados de acordo com a nescessidade do desenvolvedor, fazendo que seja extremamente simples criar scripts em Python graças a esse nivel de abstração. 
 
+O Python é interpretador e compilado, o compilador do Python, o CPython, compila o codigo fonte para um código de nível intermediário chamado códigos de bytes (arquivos .pyc). Esse codigo de bytes é interpretador por uma maquina virtual do Python, conhecida como PVM ( Python Virtual Machine). É usado a técnica JIT (Just-in-Time), ela faz a compilação em tempo de execução, assim podendo ser usado ao seu favor caracteristicas da maquina que está sendo usada e também pode traduzir blocos de código em vez de avaliar e executar linha por linha, incrementando assim a sua performance.
+
 O que realmente reduz o desempenho do Python em relação a outras linguagens é justamente esse ponto.
 
 A compilação de um codigo é deixar as intruções o mais claras possivel para a maquina, resolvendo o maximo de problemas possiveis de antemão. Deixando o codigo de maquina (bytecode) tão claro que possa rodar sem mais orientações do programador.
 
-E como a abstração do PYthon é muito grande isso pesa muito ao ser compilado, por exemplo, o simples fato de não definir o tipo do objeto faz com que o compilador tenha mais trabalho para ele mesmo definir o comportamento da variavel. Desta forma, linguagens como o Java ou C que transferem o "trabalho bruto" para o programador se tornam muito mais eficientes
+Enquanto em linguaguens de programação como C ou Java deixam a declaração de tipos das variaveis, e outros pontos chaves para o programador escrever. O Python por outro lado deixa essa essa carga para ser resolvida com o CPython, interpretador padrão do python, assim deixando o codigo mais facil de ser escrito e lido. Ou seja, o CPython terá que descobrir qual o tipo da variavel, onde inicia e termina os blocos de codigo, e varios outros pontos que teram de ser definidos antes de passar as instruções para a maquina. E como a interpretação é feita em tempo de execução, isso deixa muito trabalho para ser executado ao mesmo tempo, assim afetando o desenpenho.
 
-O Python usa a tecnica JIT (Just-in-Time), ela faz a compilação em tempo de execução assim podendo ser usado ao seu favor caracteristicas da maquina que está sendo usada e também pode traduzir blocos de código em vez de avaliar e executar linha por linha, incrementando assim a sua performance.
-
+E como a abstração do Python é muito grande isso pesa muito ao ser interpretado, por exemplo, o simples fato de não definir o tipo do objeto faz com que o compilador tenha mais trabalho para ele mesmo definir o comportamento da variavel. Desta forma, linguagens como o Java ou C que transferem o "trabalho bruto" para o programador se tornam muito mais eficientes
 
 O principal problema para programar em python é a sua lentidão para rodar seus scripts.
+
+Porem escrever programas em python é mais facil de escrever, ler, compreender. O fator de ter que identar o codigo, não precisar declarar variaveis, não precisar terminar linhas com ";", abrir e fechar trechos do codigo, e outros fatores deixa bem menos poluido o codigo.
+
+# Programando em Java
+
+O Java é compilado e interpretado, o compilador do Java, o Javac, compila o codigo fonte para um código de nível intermediário chamado códigos de bytes (arquivos .class). Esse codigo de bytes é interpretador por uma maquina virtual do Java, conhecida como JVM (Java Virtual Machine). É usado a técnica JIT (Just-in-Time) para fazer melhor aproveitamento do codigo de bytes.
+
+O Java possui uma tipagem estatica, tendo que declarar os tipos das variaveis em qualquer situação que o Java julgue ambiguo, no caso as IDEs separam em dois niveis, erros e avisos. Os erros são situações em que a IDE identifica identifica incoerencias ou erros graves na logica, como declarar duas variaveis com o mesmo nome, ou passar um objeto String para Inteiro sem fazer o tratamento adequado. Os avisos são para quando as incoerencias ou ambiguidades são mais seguras, como instanciar um objeto e não usar.
+
+Em relação ao Python o Java deixa mais trabalho para o programador, fazendo-o definir muitas coisas para o programa funcionar. Assim poluindo a tela com informações que o programador não prescisa. Mas por outro lado, ainda apresenta uma linguagem clara e logica, o que permite que escrevamos codigos eficientes. 
 
 # Anotações 
 
