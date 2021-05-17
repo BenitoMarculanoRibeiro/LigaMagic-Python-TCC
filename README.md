@@ -104,7 +104,7 @@ Funcionamento do Python
 Primeiro escrevemos o script (codigo fonte .py)
 Depois executamos o script por um interpretador python, onde é compilado para o chamado "código de byte" (arquivo .pyc) e em seguida roteado para uma "maquina virtual Python" (PVM)
 
-![alt text](https://prnt.sc/12xhz0g)
+![alt text](https://github.com/BenitoMarculanoRibeiro/LigaMagic-Python-TCC/blob/main/img1.jpg?raw=true)
 
 Vale ressaltar que os arquivos pré-compilados .pyc não são código binário de maquina, o código de byte é uma representação especifica do Python.
 O motivo do código em Python ser tão lento é por causa do loop PVM, ele tem que interpretar o código em byte, e as instruções do código de byte requerem mais trabalho do que as instruções da CPU.
