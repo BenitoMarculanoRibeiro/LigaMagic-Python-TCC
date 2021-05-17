@@ -13,7 +13,7 @@ class Populacao:
             self.populacao.append(cromossomo)
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
-                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
+                #print("Novo Cromossomo: "+str(cromossomo.getFitness()))
 
     def getTop1(self):
         return self.top1
@@ -43,10 +43,10 @@ class Populacao:
         filho2.avaliacao(frete)
         if(self.top1.getFitness() > filho1.getFitness()):
             self.top1 = filho1
-            print("Filho1 " + str(filho1.getFitness())+" é melhor que o Top1")
+            #print("Filho1 " + str(filho1.getFitness())+" é melhor que o Top1")
         if(self.top1.getFitness() > filho2.getFitness()):
             self.top1 = filho2
-            print("Filho2 " + str(filho2.getFitness())+" é melhor que o Top1")
+            #print("Filho2 " + str(filho2.getFitness())+" é melhor que o Top1")
         self.populacao.append(filho1)
         self.populacao.append(filho2)
 
@@ -63,7 +63,7 @@ class Populacao:
             self.populacao.append(cromossomo)
             if(cromossomo.getFitness() < self.top1.getFitness()):
                 self.top1 = cromossomo
-                print("Novo Cromossomo: "+str(cromossomo.getFitness()))
+                #print("Novo Cromossomo: "+str(cromossomo.getFitness()))
 
     def mutacao(self, frete, chanceMutacao):
         for cromossomo in self.populacao:
@@ -73,7 +73,7 @@ class Populacao:
                 self.populacao.append(mutante)
                 if(mutante.getFitness() < self.top1.getFitness()):
                     self.top1 = mutante
-                    print("Mutante: "+str(mutante.getFitness()))
+                    #print("Mutante: "+str(mutante.getFitness()))
 
     def selecao(self, tam):
         self.populacao.sort(key=lambda x: x.getFitness())

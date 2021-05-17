@@ -2,6 +2,7 @@
 from .Item import Item
 from .Carta import Carta
 from .Frete import Frete
+from json import load
 
 
 def lerArquivo(caminho):
@@ -70,4 +71,88 @@ def toStringFrete(fretes):
     texto = ""
     for i in fretes:
         texto += "Loja " + str(i.getLoja()) + " - " + str(i.getFrete()) + "\n"
+    return texto
+
+
+def escrever_json(caminho, lista):
+    arquivo = open(caminho, 'a')
+    arquivo.write(lista)
+
+
+def carregar_json(arquivo):
+    with open('pedido1.json', 'r') as f:
+        return load(f)
+
+
+def converter(pedido, arrayInicioPopulacao, arraySelecao, arrayCruzamtento, arrayMutacao, arrayInsercao, arrayTempoTotal, arrayFitness):
+    texto = "{\n    \""+str(pedido)+"\":[{\n"
+
+    for i in range(len(arrayTempoTotal)):
+        if(i == 0):
+            texto += "\"" + str(arrayTempoTotal[i]) + "\": ["
+        elif(i == len(arrayTempoTotal)-1):
+            texto += "\"" + str(arrayTempoTotal[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayTempoTotal[i]) + "\" , "
+
+    texto += "},\n{"
+    for i in range(len(arrayFitness)):
+        if(i == 0):
+            texto += "\"" + str(arrayFitness[i]) + "\": ["
+        elif(i == len(arrayFitness)-1):
+            texto += "\"" + str(arrayFitness[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayFitness[i]) + "\" , "
+
+    texto += "},\n    {"
+
+    for i in range(len(arrayInicioPopulacao)):
+        if(i == 0):
+            texto += "\"" + str(arrayInicioPopulacao[i]) + "\": ["
+        elif(i == len(arrayInicioPopulacao)-1):
+            texto += "\"" + str(arrayInicioPopulacao[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayInicioPopulacao[i]) + "\" , "
+
+    texto += "},\n{"
+    for i in range(len(arraySelecao)):
+        if(i == 0):
+            texto += "\"" + str(arraySelecao[i]) + "\": ["
+        elif(i == len(arraySelecao)-1):
+            texto += "\"" + str(arraySelecao[i]) + "\"]"
+        else:
+            texto += "\"" + str(arraySelecao[i]) + "\" , "
+
+    texto += "},\n    {"
+
+    for i in range(len(arrayCruzamtento)):
+
+        if(i == 0):
+            texto += "\"" + str(arrayCruzamtento[i]) + "\": ["
+        elif(i == len(arrayCruzamtento)-1):
+            texto += "\"" + str(arrayCruzamtento[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayCruzamtento[i]) + "\" , "
+
+    texto += "},\n{"
+    for i in range(len(arrayMutacao)):
+        if(i == 0):
+            texto += "\"" + str(arrayMutacao[i]) + "\": ["
+        elif(i == len(arrayMutacao)-1):
+            texto += "\"" + str(arrayMutacao[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayMutacao[i]) + "\" , "
+
+    texto += "},\n    {"
+
+    for i in range(len(arrayInsercao)):
+
+        if(i == 0):
+            texto += "\"" + str(arrayInsercao[i]) + "\": ["
+        elif(i == len(arrayInsercao)-1):
+            texto += "\"" + str(arrayInsercao[i]) + "\"]"
+        else:
+            texto += "\"" + str(arrayInsercao[i]) + "\" , "
+
+    texto += "}]\n}"
     return texto
